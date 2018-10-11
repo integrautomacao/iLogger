@@ -1,9 +1,6 @@
 package IntegraLogger.Model.User;
 
-import IntegraLogger.Model.iModel;
-
 import javax.persistence.*;
-import java.util.List;
 
 @Entity(name = "User")
 @Table(name = "User")

@@ -1,5 +1,6 @@
 package IntegraLogger.Configuration;
 
+import IntegraLogger.Application.AppValues;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +20,12 @@ public class DbConfiguration {
 
     @Bean
     public DataSource dataSource(){
-        return DataSourceBuilder.create().driverClassName("org.h2.Driver").url("jdbc:h2:mem:ilogger;DB_CLOSE_ON_EXIT=FALSE").username("sa").password("sa").build();
+        return DataSourceBuilder.create()
+                .driverClassName(AppValues.getProperty("dataSource.className"))
+                .url(AppValues.getProperty("dataSource.url"))
+                .username(AppValues.getProperty("dataSource.user"))
+                .password(AppValues.getProperty("dataSource.password"))
+                .build();
     }
 
     @Bean
@@ -39,8 +45,8 @@ public class DbConfiguration {
 
     private Properties additionalProperties() {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+        properties.setProperty("hibernate.hbm2ddl.auto", "create");
+        properties.setProperty("hibernate.dialect", AppValues.getProperty("hibernate.dialect"));
         properties.setProperty("hibernate.show_sql", "true");
         return properties;
     }
