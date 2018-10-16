@@ -8,25 +8,40 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-//@Entity(name = "Itag")
+@Entity(name = "Itag")
 @Table(name = "Itag")
 public class Itag {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "namaae")
+
+    @Column(name = "name")
     private String name;
-//    @Column(name = "value")
-//    private Object value;
+
+    @Column(name = "valueInt")
+    private int valueInt;
+
+    @Column(name = "valueString")
+    private String valueString;
+
+    @Column(name = "valueBool")
+    private boolean valueBool;
+
+    @Column(name = "valueFloat")
+    private float valueFloat;
+
     @Column(name = "periodSec")
     private float periodSec;
-    @Column(name = "typeaA")
+
+    @Column(name = "typsse")
     private String type;
+
     @Column(name = "lastUpdate")
     private Date lastUpdate;
-//    @Column(name = "description")
-    private String description;
 
+    @Column(name = "description")
+    private String description;
+//
 //    private List<ItagListener> listeners = new ArrayList<>();
 //    private Object oldValue = new Object();
 //    private Tag tag;

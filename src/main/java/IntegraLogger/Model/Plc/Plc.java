@@ -1,7 +1,11 @@
 package IntegraLogger.Model.Plc;
 
 
+import IntegraLogger.Model.Tag.ItagConfig;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "Plc")
 @Table(name = "Plc")
@@ -16,6 +20,17 @@ public class Plc {
     @Column(name = "description")
     private String description;
 
+    @OneToMany
+    @Column(name = "itagConfigs")
+    private List<ItagConfig> itagConfigs = new ArrayList<>();
+
+    public String getIp() {
+        return ip;
+    }
+
+    public List<ItagConfig> getItagConfigs() {
+        return itagConfigs;
+    }
 
     public Long getId() {
         return id;
