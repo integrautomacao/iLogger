@@ -33,15 +33,92 @@ public class Itag {
     @Column(name = "periodSec")
     private float periodSec;
 
-    @Column(name = "typsse")
-    private String type;
+    @Column(name = "dataType")
+    private String dataType;
 
     @Column(name = "lastUpdate")
     private Date lastUpdate;
 
     @Column(name = "description")
     private String description;
-//
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getValueInt() {
+        return valueInt;
+    }
+
+    public void setValueInt(int valueInt) {
+        this.valueInt = valueInt;
+    }
+
+    public String getValueString() {
+        return valueString;
+    }
+
+    public void setValueString(String valueString) {
+        this.valueString = valueString;
+    }
+
+    public boolean isValueBool() {
+        return valueBool;
+    }
+
+    public void setValueBool(boolean valueBool) {
+        this.valueBool = valueBool;
+    }
+
+    public float getValueFloat() {
+        return valueFloat;
+    }
+
+    public void setValueFloat(float valueFloat) {
+        this.valueFloat = valueFloat;
+    }
+
+    public float getPeriodSec() {
+        return periodSec;
+    }
+
+    public void setPeriodSec(float periodSec) {
+        this.periodSec = periodSec;
+    }
+
+    public String getDataType() {
+        return dataType;
+    }
+
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
+    }
+
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    //
 //    private List<ItagListener> listeners = new ArrayList<>();
 //    private Object oldValue = new Object();
 //    private Tag tag;

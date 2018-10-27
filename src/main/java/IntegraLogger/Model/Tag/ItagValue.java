@@ -43,7 +43,7 @@ public class ItagValue {
         switch (type) {
             case "STRUCT":
                 this.valueString = value.toString();
-                ....
+
         }
 
     }

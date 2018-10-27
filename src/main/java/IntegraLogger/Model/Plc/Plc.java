@@ -20,7 +20,7 @@ public class Plc {
     @Column(name = "description")
     private String description;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @Column(name = "itagConfigs")
     private List<ItagConfig> itagConfigs = new ArrayList<>();
 

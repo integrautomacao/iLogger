@@ -24,6 +24,9 @@ public class ItagConfig {
         this.timeUpdate = timeUpdate;
     }
 
+    public ItagConfig() {
+    }
+
     public Long getId() {
         return id;
     }
