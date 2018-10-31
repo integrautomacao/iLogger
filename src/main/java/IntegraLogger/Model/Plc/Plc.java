@@ -2,6 +2,7 @@ package IntegraLogger.Model.Plc;
 
 
 import IntegraLogger.Model.Tag.ItagConfig;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.ArrayList;

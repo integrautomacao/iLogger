@@ -30,9 +30,6 @@ public class Itag {
     @Column(name = "valueFloat")
     private float valueFloat;
 
-    @Column(name = "periodSec")
-    private float periodSec;
-
     @Column(name = "dataType")
     private String dataType;
 
@@ -41,6 +38,9 @@ public class Itag {
 
     @Column(name = "description")
     private String description;
+
+    @Column(name = "source")
+    private String source;
 
     public Long getId() {
         return id;
@@ -86,14 +86,6 @@ public class Itag {
         this.valueFloat = valueFloat;
     }
 
-    public float getPeriodSec() {
-        return periodSec;
-    }
-
-    public void setPeriodSec(float periodSec) {
-        this.periodSec = periodSec;
-    }
-
     public String getDataType() {
         return dataType;
     }
@@ -116,6 +108,14 @@ public class Itag {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 
     //

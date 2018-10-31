@@ -1,6 +1,8 @@
 package IntegraLogger.Enviroment;
 
-import IntegraLogger.Application.PlcConnection;
+import IntegraLogger.Application.Listeners.ListenersIndex;
+import IntegraLogger.Application.PlcThread;
+import IntegraLogger.Application.ThreadPool;
 import IntegraLogger.Controller.Service.ItagConfigService;
 import IntegraLogger.Controller.Service.PlcService;
 import IntegraLogger.Controller.Service.UserService;
@@ -19,26 +21,24 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
     private PlcService plcService;
 
     @Autowired
+    private ThreadPool pool;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
     private ItagConfigService itagConfigService;
 
-    @Autowired
-    private PlcConnection plcConnection;
-
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
         //just prepare the enviroment for develop running
-        startupEnviroment();
 
-
-        plcConnection.createConnecion();
+            startupEnviroment();
 
 
     }
 
-    private void startupEnviroment(){
+    private void startupEnviroment() {
         //TODO this is a temporary enviroment preparation
         User user = new User();
         user.setName("William Douglas Costa Silva");
@@ -62,6 +62,8 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
         ItagConfig itagConfig5 = new ItagConfig("wdouglas", "valor inteiro eu acho", 2);
         ItagConfig itagConfig6 = new ItagConfig("xSecCounter", "Contador em segundos", 2);
         ItagConfig itagConfig7 = new ItagConfig("Body1HFlow", "PLC 2 - Variável real aleatória", 5);
+        itagConfig1.setListener(ListenersIndex.EMAIL);
+        itagConfig7.setListener(ListenersIndex.PERSIST);
 
         plc.getItagConfigs().add(itagConfig1);
         plc2.getItagConfigs().add(itagConfig2);
@@ -81,5 +83,22 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
 
         plcService.save(plc);
         plcService.save(plc2);
+
+        System.out.println("VAI COMEÇAR-------");
+        PlcThread plcThread = new PlcThread(plc);
+        pool.addPlcThread(plcThread);
+        System.out.println(plcThread);
+        Thread thread = new Thread(plcThread, plc.getDescription());
+        pool.addThread(thread);
+        thread.start();
+
+        PlcThread plcThread2 = new PlcThread(plc2);
+        pool.addPlcThread(plcThread2);
+        System.out.println(plcThread2);
+        Thread thread2 = new Thread(plcThread2, plc2.getDescription());
+        pool.addThread(thread2);
+        thread2.start();
+
+
     }
 }
