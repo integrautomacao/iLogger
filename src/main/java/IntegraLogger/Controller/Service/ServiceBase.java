@@ -1,5 +1,7 @@
 package IntegraLogger.Controller.Service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -9,9 +11,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Scope("prototype")
 public abstract class ServiceBase<T, ID extends Serializable, R extends JpaRepository<T, ID>> {
     protected final R repository;
 
+    @Autowired
     public ServiceBase(R repository) {
         this.repository = repository;
     }
@@ -21,7 +25,7 @@ public abstract class ServiceBase<T, ID extends Serializable, R extends JpaRepos
         return entity;
     }
 
-    public void deletePermanent(ID id) {
+    public void deletePermanent(T id) {
         repository.delete(id);
     }
 

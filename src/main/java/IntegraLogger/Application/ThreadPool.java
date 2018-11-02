@@ -1,15 +1,14 @@
 package IntegraLogger.Application;
 
-import IntegraLogger.Model.Plc.Plc;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @EnableScheduling
-@Component
+@Controller
 public class ThreadPool {
 
     private List<Thread> threads = new ArrayList<>();
@@ -46,4 +45,5 @@ public class ThreadPool {
             }
         }
     }
+
 }

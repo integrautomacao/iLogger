@@ -6,11 +6,13 @@ import IntegraLogger.Application.ThreadPool;
 import IntegraLogger.Controller.Service.ItagConfigService;
 import IntegraLogger.Controller.Service.PlcService;
 import IntegraLogger.Controller.Service.UserService;
+import IntegraLogger.Controller.Service.testeService;
 import IntegraLogger.Model.Plc.Plc;
 import IntegraLogger.Model.Tag.ItagConfig;
 import IntegraLogger.Model.User.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
@@ -32,20 +34,19 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
         //just prepare the enviroment for develop running
-
             startupEnviroment();
-
-
     }
 
     private void startupEnviroment() {
         //TODO this is a temporary enviroment preparation
         User user = new User();
-        user.setName("William Douglas Costa Silva");
-        user.setEmail("wdouglascosta@outlook.com");
+        user.setName("William Douglas");
+        user.setEmail("wdouglas@test.com");
         user.setPassword("TeSt");
         user.setPhoneNumber("1234567890");
+
         userService.save(user);
+
         Plc plc = new Plc();
         Plc plc2 = new Plc();
         plc.setIp("192.168.0.217");
@@ -54,7 +55,6 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
         plc2.setSlot(0);
         plc.setDescription("PLC_Teste01");
         plc2.setDescription("PLC_Segundo");
-
         ItagConfig itagConfig1 = new ItagConfig("Bool1", "Tag Booleano de mudança rápida", 1);
         ItagConfig itagConfig2 = new ItagConfig("AlarmTest", "PLC 2 - Alarme de Teste", 1);
         ItagConfig itagConfig3 = new ItagConfig("wstring", "Palavra lida", 1);
@@ -64,7 +64,6 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
         ItagConfig itagConfig7 = new ItagConfig("Body1HFlow", "PLC 2 - Variável real aleatória", 5);
         itagConfig1.setListener(ListenersIndex.EMAIL);
         itagConfig7.setListener(ListenersIndex.PERSIST);
-
         plc.getItagConfigs().add(itagConfig1);
         plc2.getItagConfigs().add(itagConfig2);
         plc.getItagConfigs().add(itagConfig3);
@@ -84,8 +83,8 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
         plcService.save(plc);
         plcService.save(plc2);
 
-        System.out.println("VAI COMEÇAR-------");
         PlcThread plcThread = new PlcThread(plc);
+
         pool.addPlcThread(plcThread);
         System.out.println(plcThread);
         Thread thread = new Thread(plcThread, plc.getDescription());

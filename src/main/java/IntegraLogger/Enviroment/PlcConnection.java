@@ -1,10 +1,7 @@
 package IntegraLogger.Enviroment;
 
-import IntegraLogger.Application.Listeners.ListenersIndex;
 import IntegraLogger.Controller.Service.PlcService;
 import IntegraLogger.Model.Plc.Plc;
-import IntegraLogger.Model.Tag.ItagConfig;
-import IntegraLogger.Model.User.User;
 import etherip.protocol.Connection;
 import etherip.protocol.RegisterSession;
 import etherip.protocol.TcpConnection;
@@ -14,8 +11,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class PlcConnection {
 
-//    @Autowired
-//    private PlcService plcService;
+    @Autowired
+    private PlcService plcService;
 
     public Connection plcConnect(Plc plc) {
         try {

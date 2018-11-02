@@ -13,12 +13,9 @@ import etherip.Tag;
 import etherip.TagList;
 import etherip.protocol.Connection;
 import etherip.scan.Scanner;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class PlcThread implements Runnable, ConnectionFailListener {
 
@@ -34,10 +31,11 @@ public class PlcThread implements Runnable, ConnectionFailListener {
 
     public PlcThread(Plc plc) {
         this.plc = plc;
-        Connection connection = plcConnection.plcConnect(plc);
+        Connection connection = plcConnection.plcConnect(plc); //
         this.scanner = new Scanner(connection, 5, this);
         this.connectionMonitor = true;
     }
+
 
     public boolean checkConnection() {
         EtherNetIP netIP = new EtherNetIP(plc.getIp(), plc.getSlot());
