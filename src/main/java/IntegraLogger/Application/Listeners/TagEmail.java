@@ -1,37 +1,29 @@
 package IntegraLogger.Application.Listeners;
 
-import IntegraLogger.Application.ThreadPool;
+import IntegraLogger.Controller.Service.BeanUtil;
 import IntegraLogger.Controller.Service.ItagValueService;
-import IntegraLogger.Controller.Service.PlcService;
-import IntegraLogger.Controller.Service.testeService;
 import etherip.Tag;
 import etherip.TagListener;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class TagEmail implements TagListener {
 
-    @Autowired
-    PlcService plcService;
+    private ItagValueService itagValueService = BeanUtil.getBean(ItagValueService.class);
 
-    @Autowired
-    ItagValueService itagValueService;
+    private static final Logger logger = LoggerFactory.getLogger(TagEmail.class);
 
-    @Autowired
-    ThreadPool pool;
-
-    @Autowired
-    IntegraLogger.Controller.Service.testeService testeService;
+    public TagEmail() {
+    }
 
     @Override
     public synchronized void tagUpdate(Tag tag) {
 
-        System.out.println("Email Sender -> Value: " + tag.getData());
-        testeService.teste();
-        plcService.test();
+        logger.info("Email Sender -> Value: " + tag.getData());
+//        ItagValue value = new ItagValue(tag.getName(),tag.getData().getType(),new Date(),tag.getData().getNumber(0).floatValue());
+//        plcService.test();
     }
 
     @Override

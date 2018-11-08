@@ -1,30 +1,32 @@
 package IntegraLogger.Model.Tag;
 
+import IntegraLogger.Model.Plc.Plc;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
-@Entity(name = "Itag")
-@Table(name = "Itag")
+@Entity(name = "ItagValue")
+@Table(name = "ItagValue")
 public class ItagValue {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "valueInt")
-    private int valueInt;
+    private Integer valueInt;
 
     @Column(name = "valueString")
     private String valueString;
 
     @Column(name = "valueBool")
-    private boolean valueBool;
+    private Boolean valueBool;
 
     @Column(name = "valueFloat")
-    private float valueFloat;
+    private Float valueFloat;
 
     @Column(name = "type")
     private String type;
@@ -32,20 +34,45 @@ public class ItagValue {
     @Column(name = "lastUpdate")
     private Date lastUpdate;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "date")
+    private String date;
 
-    public ItagValue(String name, String type, Date lastUpdate, String description, Object value) {
-        this.name = name;
-        this.type = type;
-        this.lastUpdate = lastUpdate;
-        this.description = description;
-        switch (type) {
-            case "STRUCT":
-                this.valueString = value.toString();
+    @Column(name = "hour")
+    private String hour;
 
-        }
+    @ManyToOne
+    private Plc plcSource;
 
+    public Plc getPlcSource() {
+        return plcSource;
+    }
+
+    public void setPlcSource(Plc plcSource) {
+        this.plcSource = plcSource;
+    }
+
+    public ItagValue() {
+        this.valueString = null;
+        this.valueBool = null;
+        this.valueFloat = null;
+        this.valueInt = null;
+
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getHour() {
+        return hour;
+    }
+
+    public void setHour(String hour) {
+        this.hour = hour;
     }
 
     public Long getId() {
@@ -60,11 +87,11 @@ public class ItagValue {
         this.name = name;
     }
 
-    public int getValueInt() {
+    public Integer getValueInt() {
         return valueInt;
     }
 
-    public void setValueInt(int valueInt) {
+    public void setValueInt(Integer valueInt) {
         this.valueInt = valueInt;
     }
 
@@ -76,19 +103,19 @@ public class ItagValue {
         this.valueString = valueString;
     }
 
-    public boolean isValueBool() {
+    public Boolean getValueBool() {
         return valueBool;
     }
 
-    public void setValueBool(boolean valueBool) {
+    public void setValueBool(Boolean valueBool) {
         this.valueBool = valueBool;
     }
 
-    public float getValueFloat() {
+    public Float getValueFloat() {
         return valueFloat;
     }
 
-    public void setValueFloat(float valueFloat) {
+    public void setValueFloat(Float valueFloat) {
         this.valueFloat = valueFloat;
     }
 
@@ -108,11 +135,4 @@ public class ItagValue {
         this.lastUpdate = lastUpdate;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

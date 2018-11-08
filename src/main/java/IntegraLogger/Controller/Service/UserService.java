@@ -18,4 +18,5 @@ public class UserService extends ServiceBase<User, Long, UserRepository> {
     }
 
 
+
 }

@@ -57,6 +57,7 @@ public class PlcThread implements Runnable, ConnectionFailListener {
 
         for (ItagConfig itagConfig : plc.getItagConfigs()) {
             Tag tag = scanner.add(itagConfig.getTimeUpdate(), itagConfig.getName());
+            tag.setSource(plc.getId());
             for (ListenersIndex listenersIndex : itagConfig.getListeners()) {
 
                 if (listenersIndex.equals(ListenersIndex.EMAIL)) {

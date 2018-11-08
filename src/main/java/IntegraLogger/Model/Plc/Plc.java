@@ -12,7 +12,7 @@ import java.util.List;
 @Table(name = "Plc")
 public class Plc {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "ip")
     private String ip;

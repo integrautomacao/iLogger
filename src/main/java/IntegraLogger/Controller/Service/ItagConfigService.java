@@ -12,4 +12,8 @@ public class ItagConfigService extends ServiceBase<ItagConfig, Long, ItagConfigR
     public ItagConfigService(ItagConfigRepository repository) {
         super(repository);
     }
+
+    public int countInt() {
+        return (int)repository.count();
+    }
 }

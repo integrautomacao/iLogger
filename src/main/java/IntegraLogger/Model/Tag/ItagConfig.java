@@ -11,29 +11,32 @@ import java.util.List;
 @Table(name = "ItagConfig")
 public class ItagConfig {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name")
     private String name;
 
-    @Column(name = "description")
-    private String description;
+    @OneToOne
+    private ItagDescription description;
 
     @Column(name = "timeUpdate")
     private int timeUpdate;
+
+
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     private List<ListenersIndex> listeners = new ArrayList<>();
 
-    public ItagConfig(String name, String description, int timeUpdate) {
+    public ItagConfig(String name, ItagDescription description, int timeUpdate) {
         this.name = name;
         this.description = description;
         this.timeUpdate = timeUpdate;
     }
 
     public ItagConfig() {
+
     }
 
     public List<ListenersIndex> getListeners() {
@@ -67,11 +70,11 @@ public class ItagConfig {
         this.name = name;
     }
 
-    public String getDescription() {
+    public ItagDescription getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(ItagDescription description) {
         this.description = description;
     }
 
