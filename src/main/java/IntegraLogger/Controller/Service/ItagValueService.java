@@ -16,7 +16,8 @@ public class ItagValueService extends ServiceBase<ItagValue, Long, ItagValueRepo
     private ItagConfigService configService = BeanUtil.getBean(ItagConfigService.class);
 
     private PlcService plcService = BeanUtil.getBean(PlcService.class);
-    private Map<String, ItagValue> values = new HashMap<>(configService.countInt());
+    private Map<String, ItagValue> valuesToSave = new HashMap<>(configService.countInt());
+    private Map<String, ItagValue> valuesToMail = new HashMap<>(configService.countInt());
 
     private SimpleDateFormat hourFormat = new SimpleDateFormat("yyyy-MM-dd");
     private SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
@@ -62,38 +63,64 @@ public class ItagValueService extends ServiceBase<ItagValue, Long, ItagValueRepo
     public void checkAndSave(ItagValue value) {
         if (!value.equals(null)) {
             String key = value.getName() + value.getPlcSource().getId();
-            if (values.containsKey(key)) {
-                ItagValue itagValue = values.get(key);
+            if (valuesToSave.containsKey(key)) {
+                ItagValue itagValue = valuesToSave.get(key);
                 switch (itagValue.getType()) {
                     case "BOOL":
                         if (value.getValueBool() == itagValue.getValueBool()){
                             itagValue.setLastUpdate(value.getLastUpdate());
-                            values.get(key).setLastUpdate(itagValue.getLastUpdate());
+                            valuesToSave.get(key).setLastUpdate(itagValue.getLastUpdate());
                             repository.setTimeUpdate(value.getLastUpdate(), itagValue.getId());
                         } else {
-                            values.put(key, value);
+                            valuesToSave.put(key, value);
                             repository.save(value);
                         }
                         break;
                     case "REAL":
                         //TODO implement especified rules to REAL and STRUCT strategy
-                        values.put(key, value);
+                        valuesToSave.put(key, value);
                         repository.save(value);
                         break;
                     case "STRUCT":
-                        values.put(key, value);
+                        valuesToSave.put(key, value);
                         repository.save(value);
                         break;
                     default:
-                        values.put(key, value);
+                        valuesToSave.put(key, value);
                         repository.save(value);
                         break;
                 }
             }else{
-                values.put(key, value);
+                valuesToSave.put(key, value);
                 repository.save(value);
             }
         }
+    }
+
+    //por enquanto, só envia emails com tags booleanas
+    public boolean checkValuesForEmail(ItagValue value){
+        if (!value.equals(null)) {
+            if (value.getType().equals("BOOL")){
+                String key = value.getName() + value.getPlcSource().getId();
+                if (valuesToMail.containsKey(key)) {
+                    ItagValue itagValue = valuesToMail.get(key);
+                    if (!value.getValueBool() == itagValue.getValueBool()){
+                        valuesToMail.put(key, value);
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    valuesToMail.put(key, value);
+                    return true;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+
     }
 
 

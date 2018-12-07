@@ -1,12 +1,21 @@
 package IntegraLogger.Application.Listeners;
 
 import IntegraLogger.Controller.Service.BeanUtil;
+import IntegraLogger.Controller.Service.EmailSender;
+import IntegraLogger.Controller.Service.FreemakerUtils;
 import IntegraLogger.Controller.Service.ItagValueService;
+import IntegraLogger.Model.Tag.ItagValue;
 import etherip.Tag;
 import etherip.TagListener;
+import freemarker.template.TemplateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 //@Component
 public class TagEmail implements TagListener {
@@ -22,8 +31,22 @@ public class TagEmail implements TagListener {
     public synchronized void tagUpdate(Tag tag) {
 
         logger.info("Email Sender -> Value: " + tag.getData());
-//        ItagValue value = new ItagValue(tag.getName(),tag.getData().getType(),new Date(),tag.getData().getNumber(0).floatValue());
-//        plcService.test();
+        ItagValue value = null;
+        try {
+            value = itagValueService.tagToItag(tag);
+        } catch (Exception e) {
+            logger.info("was not possible parse the tag object in itagValue object");
+            e.printStackTrace();
+            return;
+        }
+
+        if (itagValueService.checkValuesForEmail(value)) {
+            EmailSender emailSender = new EmailSender(value);
+            Thread thread = new Thread(emailSender, "EmailSender -> "+value.getName());
+            thread.start();
+
+
+        }
     }
 
     @Override
