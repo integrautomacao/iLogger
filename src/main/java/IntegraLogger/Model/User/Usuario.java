@@ -2,9 +2,9 @@ package IntegraLogger.Model.User;
 
 import javax.persistence.*;
 
-@Entity(name = "User")
-@Table(name = "User")
-public class User {
+@Entity(name = "Usuario")
+@Table(name = "Usuario")
+public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

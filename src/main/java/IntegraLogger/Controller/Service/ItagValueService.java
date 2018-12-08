@@ -67,7 +67,7 @@ public class ItagValueService extends ServiceBase<ItagValue, Long, ItagValueRepo
                 ItagValue itagValue = valuesToSave.get(key);
                 switch (itagValue.getType()) {
                     case "BOOL":
-                        if (value.getValueBool() == itagValue.getValueBool()){
+                        if (value.getValueBool() == itagValue.getValueBool()) {
                             itagValue.setLastUpdate(value.getLastUpdate());
                             valuesToSave.get(key).setLastUpdate(itagValue.getLastUpdate());
                             repository.setTimeUpdate(value.getLastUpdate(), itagValue.getId());
@@ -90,7 +90,7 @@ public class ItagValueService extends ServiceBase<ItagValue, Long, ItagValueRepo
                         repository.save(value);
                         break;
                 }
-            }else{
+            } else {
                 valuesToSave.put(key, value);
                 repository.save(value);
             }
@@ -98,21 +98,27 @@ public class ItagValueService extends ServiceBase<ItagValue, Long, ItagValueRepo
     }
 
     //por enquanto, só envia emails com tags booleanas
-    public boolean checkValuesForEmail(ItagValue value){
+    public boolean checkValuesForEmail(ItagValue value) {
         if (!value.equals(null)) {
-            if (value.getType().equals("BOOL")){
+            if (value.getType().equals("BOOL")) {
                 String key = value.getName() + value.getPlcSource().getId();
                 if (valuesToMail.containsKey(key)) {
                     ItagValue itagValue = valuesToMail.get(key);
-                    if (!value.getValueBool() == itagValue.getValueBool()){
+                    if (!value.getValueBool() == itagValue.getValueBool()) {
                         valuesToMail.put(key, value);
                         return true;
                     } else {
                         return false;
                     }
                 } else {
-                    valuesToMail.put(key, value);
-                    return true;
+                    if (value.getValueBool()) {
+                        valuesToMail.put(key, value);
+                        return true;
+                    } else {
+                        valuesToMail.put(key, value);
+                        return false;
+                    }
+
                 }
             } else {
                 return false;

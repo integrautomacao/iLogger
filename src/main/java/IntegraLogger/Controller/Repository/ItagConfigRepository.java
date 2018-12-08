@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ItagConfigRepository extends JpaRepository<ItagConfig, Long> {
+    public ItagConfig findByName(String s);
 }

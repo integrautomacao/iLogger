@@ -7,7 +7,7 @@ import IntegraLogger.Controller.Service.*;
 import IntegraLogger.Model.Plc.Plc;
 import IntegraLogger.Model.Tag.ItagConfig;
 import IntegraLogger.Model.Tag.ItagDescription;
-import IntegraLogger.Model.User.User;
+import IntegraLogger.Model.User.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
@@ -40,7 +40,7 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
     private void startupEnviroment() {
         //TODO this is a temporary enviroment preparation
         if (!userService.hasData()) {
-            User user = new User();
+            Usuario user = new Usuario();
             user.setName("William Douglas");
             user.setEmail("wdouglas@test.com");
             user.setPassword("TeSt");
@@ -53,8 +53,8 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
         if (!plcService.hasData()) {
             Plc plc = new Plc();
             Plc plc2 = new Plc();
-            plc.setIp("192.168.0.217");
-            plc2.setIp("192.168.0.217");
+            plc.setIp("192.168.0.101");
+            plc2.setIp("192.168.0.100");
             plc.setSlot(0);
             plc2.setSlot(0);
             plc.setDescription("PLC_Teste01");
@@ -66,6 +66,7 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
             ItagDescription description5 = new ItagDescription("valor inteiro eu acho");
             ItagDescription description6 = new ItagDescription("Contador em segundos");
             ItagDescription description7 = new ItagDescription("PLC 2 - Variável real aleatória");
+            ItagDescription description8 = new ItagDescription("Alarme de Teste de hora em hora, ficará ativo por 5 min");
             itagDescService.save(description1);
             itagDescService.save(description2);
             itagDescService.save(description3);
@@ -73,13 +74,15 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
             itagDescService.save(description5);
             itagDescService.save(description6);
             itagDescService.save(description7);
+            itagDescService.save(description8);
             ItagConfig itagConfig1 = new ItagConfig("Bool1", description1, 1);
-            ItagConfig itagConfig2 = new ItagConfig("AlarmTest", description2, 1);
+            ItagConfig itagConfig2 = new ItagConfig("digitalSim", description2, 1);
             ItagConfig itagConfig3 = new ItagConfig("wstring", description3, 1);
             ItagConfig itagConfig4 = new ItagConfig("timmer1.ACC", description4, 5);
             ItagConfig itagConfig5 = new ItagConfig("wdouglas", description5, 2);
             ItagConfig itagConfig6 = new ItagConfig("xSecCounter", description6, 2);
-            ItagConfig itagConfig7 = new ItagConfig("Body1HFlow", description7, 5);
+            ItagConfig itagConfig7 = new ItagConfig("anlg3", description7, 5);
+            ItagConfig itagConfig8 = new ItagConfig("AlarmeDeHora", description8, 1);
             itagConfig1.setListener(ListenersIndex.PERSIST);
             itagConfig2.setListener(ListenersIndex.PERSIST);
             itagConfig3.setListener(ListenersIndex.PERSIST);
@@ -87,6 +90,8 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
             itagConfig5.setListener(ListenersIndex.PERSIST);
             itagConfig6.setListener(ListenersIndex.PERSIST);
             itagConfig7.setListener(ListenersIndex.PERSIST);
+            itagConfig8.setListener(ListenersIndex.PERSIST);
+            itagConfig8.setListener(ListenersIndex.EMAIL);
             plc.getItagConfigs().add(itagConfig1);
             plc2.getItagConfigs().add(itagConfig2);
             plc.getItagConfigs().add(itagConfig3);
@@ -94,6 +99,7 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
             plc.getItagConfigs().add(itagConfig5);
             plc.getItagConfigs().add(itagConfig6);
             plc2.getItagConfigs().add(itagConfig7);
+            plc.getItagConfigs().add(itagConfig8);
 
             itagConfigService.save(itagConfig1);
             itagConfigService.save(itagConfig2);
@@ -102,6 +108,7 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
             itagConfigService.save(itagConfig5);
             itagConfigService.save(itagConfig6);
             itagConfigService.save(itagConfig7);
+            itagConfigService.save(itagConfig8);
 
             plcService.save(plc);
             plcService.save(plc2);

@@ -8,6 +8,7 @@ import IntegraLogger.Model.Tag.ItagValue;
 import etherip.Tag;
 import etherip.TagListener;
 import freemarker.template.TemplateException;
+import org.apache.commons.mail.EmailException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -41,8 +42,11 @@ public class TagEmail implements TagListener {
         }
 
         if (itagValueService.checkValuesForEmail(value)) {
-            EmailSender emailSender = new EmailSender(value);
-            Thread thread = new Thread(emailSender, "EmailSender -> "+value.getName());
+            EmailSender emailSender = null;
+
+            emailSender = new EmailSender(value);
+
+            Thread thread = new Thread(emailSender, "EmailSender -> " + value.getName());
             thread.start();
 
 
