@@ -33,7 +33,7 @@ public class ItagValueService extends ServiceBase<ItagValue, Long, ItagValueRepo
         ItagValue value = new ItagValue();
         value.setName(tag.getName());
         value.setType(tag.getData().getType().name());
-        value.setPlcSource(plcService.getById(tag.getSource()));
+//        value.setPlcSource(plcService.getById(tag.getSource()));
         value.setDate(dateFormat.format(date));
         value.setHour(hourFormat.format(date));
         value.setLastUpdate(date);
