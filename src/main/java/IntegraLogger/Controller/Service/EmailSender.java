@@ -1,10 +1,13 @@
 package IntegraLogger.Controller.Service;
 
+import IntegraLogger.Application.Listeners.TagPersist;
 import IntegraLogger.Model.Tag.ItagConfig;
 import IntegraLogger.Model.Tag.ItagValue;
 import freemarker.template.TemplateException;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -18,6 +21,8 @@ public class EmailSender implements Runnable {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd - HH:mm:ss");
     private ItagValue value;
     private String message = null;
+    private static final Logger logger = LoggerFactory.getLogger(EmailSender.class);
+
 
     public EmailSender(ItagValue value) {
         this.value = value;
@@ -62,9 +67,10 @@ public class EmailSender implements Runnable {
             this.email.setHtmlMsg(message);
             this.email.setCharset("UTF-8");
             email.send();
+            logger.info("email enviado para: (adicionar lista de emails) - evento: '" + value.getName() + "' valor= " + value.getValueBool().booleanValue());
         } catch (
                 EmailException e) {
-            System.out.println("Could not build email");
+            System.out.println("Could not send email");
             e.printStackTrace();
         }
     }
@@ -73,7 +79,7 @@ public class EmailSender implements Runnable {
     public void run() {
         sendMail();
         send();
+//TODO create a usefull message to success sent email
 
-        System.out.println("fim da thread");
     }
 }

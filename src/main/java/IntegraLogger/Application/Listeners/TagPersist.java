@@ -18,7 +18,7 @@ public class TagPersist implements TagListener {
 
     @Override
     public synchronized void tagUpdate(Tag tag) {
-        logger.info("Persist -> " + tag.getData());
+
         ItagValue value = null;
          try {
              value = itagValueService.tagToItag(tag);

@@ -30,9 +30,9 @@ public abstract class ServiceBase<T, ID extends Serializable, R extends JpaRepos
         return repository.findAll();
     }
 
-//    public T getById(ID id) {
-//        return repository.findOne(id);
-//    }
+    public T getById(ID id) {
+        return repository.getOne(id);
+    }
 
     public Optional<T> update(ID id, T entity) {
         return Optional.empty();

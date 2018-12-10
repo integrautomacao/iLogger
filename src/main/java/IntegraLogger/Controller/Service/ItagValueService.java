@@ -1,9 +1,12 @@
 package IntegraLogger.Controller.Service;
 
+import IntegraLogger.Application.Listeners.TagPersist;
 import IntegraLogger.Controller.Repository.ItagValueRepository;
 import IntegraLogger.Model.Tag.ItagDescription;
 import IntegraLogger.Model.Tag.ItagValue;
 import etherip.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +25,7 @@ public class ItagValueService extends ServiceBase<ItagValue, Long, ItagValueRepo
     private SimpleDateFormat hourFormat = new SimpleDateFormat("yyyy-MM-dd");
     private SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
     private SimpleDateFormat lastUpdate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static final Logger logger = LoggerFactory.getLogger(ItagValueService.class);
 
     @Autowired
     public ItagValueService(ItagValueRepository repository) {
@@ -33,7 +37,7 @@ public class ItagValueService extends ServiceBase<ItagValue, Long, ItagValueRepo
         ItagValue value = new ItagValue();
         value.setName(tag.getName());
         value.setType(tag.getData().getType().name());
-//        value.setPlcSource(plcService.getById(tag.getSource()));
+        value.setPlcSource(plcService.getById(tag.getSource()));
         value.setDate(dateFormat.format(date));
         value.setHour(hourFormat.format(date));
         value.setLastUpdate(date);
@@ -71,23 +75,28 @@ public class ItagValueService extends ServiceBase<ItagValue, Long, ItagValueRepo
                             itagValue.setLastUpdate(value.getLastUpdate());
                             valuesToSave.get(key).setLastUpdate(itagValue.getLastUpdate());
                             repository.setTimeUpdate(value.getLastUpdate(), itagValue.getId());
+                            logger.info("Time Update -> '" + value.getName() + "' value: "+ value.getValueBool());
                         } else {
                             valuesToSave.put(key, value);
                             repository.save(value);
+                            logger.info("Persist -> '" + value.getName() + "' value: "+ value.getValueBool());
                         }
                         break;
                     case "REAL":
                         //TODO implement especified rules to REAL and STRUCT strategy
                         valuesToSave.put(key, value);
                         repository.save(value);
+                        logger.info("Persist -> '" + value.getName() + "' value: "+ value.getValueFloat());
                         break;
                     case "STRUCT":
                         valuesToSave.put(key, value);
                         repository.save(value);
+                        logger.info("Persist -> '" + value.getName() + "' value: "+ value.getValueString());
                         break;
                     default:
                         valuesToSave.put(key, value);
                         repository.save(value);
+                        logger.info("Persist -> '" + value.getName() + "' value: "+ value.getValueInt());
                         break;
                 }
             } else {

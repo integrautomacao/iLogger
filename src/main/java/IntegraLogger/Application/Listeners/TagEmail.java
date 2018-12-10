@@ -31,7 +31,7 @@ public class TagEmail implements TagListener {
     @Override
     public synchronized void tagUpdate(Tag tag) {
 
-        logger.info("Email Sender -> Value: " + tag.getData());
+//        logger.info("Email Sender -> Value: " + tag.getData());
         ItagValue value = null;
         try {
             value = itagValueService.tagToItag(tag);

@@ -25,7 +25,6 @@ public class PlcService extends ServiceBase<Plc, Long, PlcRepository> {
         return connections;
     }
 
-
     public void test() {
         System.out.println("works!");
     }

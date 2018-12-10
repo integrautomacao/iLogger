@@ -23,7 +23,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 
 @SpringBootApplication
-//@ComponentScan("IntegraLogger.*")
+@ComponentScan("IntegraLogger.*")
 public class App extends SpringBootServletInitializer {
 
     @Override
