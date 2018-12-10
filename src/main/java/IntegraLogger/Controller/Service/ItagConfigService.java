@@ -17,10 +17,6 @@ public class ItagConfigService extends ServiceBase<ItagConfig, Long, ItagConfigR
         return (int)repository.count();
     }
 
-    public long getIdByName(String s){
-        return repository.findByName(s).getId();
-    }
-
     public ItagConfig getByName(String s){
         return repository.findByName(s);
     }
