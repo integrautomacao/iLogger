@@ -7,7 +7,7 @@
     <groupId>org.integra</groupId>
     <artifactId>iLogger</artifactId>
 
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.2-SNAPSHOT</version>
 
 
     <properties>

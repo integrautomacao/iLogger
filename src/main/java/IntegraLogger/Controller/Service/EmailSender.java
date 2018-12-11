@@ -45,8 +45,13 @@ public class EmailSender implements Runnable {
             message = FreemakerUtils.parseTemplate(map, "email.ftl");
             System.out.println(email);
         } catch (TemplateException e) {
+            System.out.println("-------------------------------------------------------------------");
+            System.out.println("Não foi possível acessar o arquivo, erro de template");
             e.printStackTrace();
+
         } catch (IOException e) {
+            System.out.println("-------------------------------------------------------------------");
+            System.out.println("Não foi possível acessar o arquivo, erro de IO");
             e.printStackTrace();
         }
     }
