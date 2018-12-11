@@ -18,7 +18,7 @@ public class Sector {
 
     @OneToMany
     @Column(name = "Users")
-    private List<User> users = new ArrayList<>();
+    private List<Usuario> users = new ArrayList<>();
 
     public String getName() {
         return name;
