@@ -71,10 +71,10 @@ public class DbConfiguration {
     @Bean
     public DataSource dataSource() {
         return DataSourceBuilder.create()
-                .driverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver")
-                .url("jdbc:sqlserver://192.168.0.21:1433;databaseName=iLogger")
-                .username("sa")
-                .password("PlantPAx4")
+                .driverClassName(AppValues.getProperty("dataSource.className"))
+                .url(AppValues.getProperty("dataSource.url"))
+                .username(AppValues.getProperty("dataSource.user"))
+                .password(AppValues.getProperty("dataSource.password"))
                 .build();
     }
 
@@ -96,7 +96,7 @@ public class DbConfiguration {
     private Properties additionalProperties() {
         Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.SQLServerDialect");
+        properties.setProperty("hibernate.dialect",  AppValues.getProperty("hibernate.dialect"));
         properties.setProperty("hibernate.show_sql", "false");
         return properties;
     }

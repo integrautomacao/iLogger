@@ -1,7 +1,5 @@
 package IntegraLogger.Controller.Service;
 
-import IntegraLogger.Application.Listeners.TagPersist;
-import IntegraLogger.Model.Tag.ItagConfig;
 import IntegraLogger.Model.Tag.ItagValue;
 import freemarker.template.TemplateException;
 import org.apache.commons.mail.EmailException;
@@ -63,11 +61,9 @@ public class EmailSender implements Runnable {
             this.email.setFrom("engenharia@integra.com"); // remetente
             this.email.setAuthentication("engenharia@integrautomacao.com.br", "_Engenharia1");
             this.email.setSmtpPort(587);
-            this.email.setSSL(false);
-            this.email.setTLS(false);
             this.email.addTo("wdouglascosta@outlook.com");
-            this.email.addTo("rafael@integrautomacao.com.br");
-            this.email.addTo("joldmar@integrautomacao.com.br");
+//            this.email.addTo("rafael@integrautomacao.com.br");
+//            this.email.addTo("joldmar@integrautomacao.com.br");
             this.email.setSubject("Alarme de teste");
             this.email.setHtmlMsg(message);
             this.email.setCharset("UTF-8");

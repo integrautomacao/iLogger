@@ -21,10 +21,12 @@ public class AppValues {
     private static Properties getCustomFileProperties() {
         Properties toReturn = new Properties();
         try {
-            InputStream input = new FileInputStream(System.getProperty("user.home") + "/iFiles/" + getCustomPropertiesFileName());
+            InputStream input = new FileInputStream("C:/iFiles/" + getCustomPropertiesFileName());
             toReturn.load(input);
+
         } catch (IOException e) {
             log.info("Custom Properties not found");
+            System.out.println("Erro ao obter arquivo de propriedades");
         }
         return toReturn;
     }
