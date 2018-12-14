@@ -28,4 +28,12 @@ public class PlcService extends ServiceBase<Plc, Long, PlcRepository> {
     public void test() {
         System.out.println("works!");
     }
+
+    public int countInt() {
+        return (int)repository.count();
+    }
+
+    public Plc getByDescription(String name) {
+        return repository.getByDescription(name);
+    }
 }

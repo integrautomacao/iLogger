@@ -11,28 +11,32 @@ import java.util.List;
 @Controller
 public class ThreadPool {
 
-    private List<Thread> threads = new ArrayList<>();
-    private List<PlcThread> plcThreads = new ArrayList<>();
+    private static List<Thread> threads = new ArrayList<>();
+    private static List<PlcThread> plcThreads = new ArrayList<>();
 
-    public void addThread(Thread thread){
-        if (!threads.contains(thread)){
+    public void addThread(Thread thread) {
+        if (!threads.contains(thread)) {
             threads.add(thread);
         }
     }
 
-    public void addPlcThread(PlcThread plcThread){
-        if (!plcThreads.contains(plcThread)){
+    public void addPlcThread(PlcThread plcThread) {
+        if (!plcThreads.contains(plcThread)) {
             plcThreads.add(plcThread);
         }
     }
 
+    public static List<Thread> getThreads() {
+        return threads;
+    }
+
     @Scheduled(fixedRate = 5000)
-    private void threadMonitor(){
-        for (Thread thread : threads){
-            if (!thread.isAlive()){
-                System.out.println("Thread "+ thread.getName()+" is not alive. Trying reconnect...");
-                for (PlcThread plcThread : plcThreads){
-                    if (plcThread.getPlc().getDescription().equals(thread.getName())){
+    private void threadMonitor() {
+        for (Thread thread : threads) {
+            if (!thread.isAlive()) {
+                System.out.println("Thread " + thread.getName() + " is not alive. Trying reconnect...");
+                for (PlcThread plcThread : plcThreads) {
+                    if (plcThread.getPlc().getDescription().equals(thread.getName())) {
                         plcThreads.remove(plcThread);
                         PlcThread newPlcThread = new PlcThread(plcThread.getPlc());
                         plcThreads.add(newPlcThread);

@@ -16,6 +16,7 @@ import java.util.*;
 @Service
 public class ItagValueService extends ServiceBase<ItagValue, Long, ItagValueRepository> {
 
+
     private ItagConfigService configService = BeanUtil.getBean(ItagConfigService.class);
 
     private PlcService plcService = BeanUtil.getBean(PlcService.class);
