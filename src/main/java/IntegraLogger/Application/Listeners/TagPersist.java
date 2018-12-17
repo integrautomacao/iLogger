@@ -29,10 +29,7 @@ public class TagPersist implements TagListener {
         itagValueService.checkAndSave(value);
     }
 
-    private ItagValue setValue(Tag tag, ItagValue value) throws Exception {
 
-        return value;
-    }
 
     @Override
     public synchronized void tagError(Tag tag) {

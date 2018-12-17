@@ -41,6 +41,7 @@ public class ItagValue {
     private String hour;
 
     @ManyToOne
+    @ElementCollection(fetch = FetchType.EAGER)
     private Plc plcSource;
 
     public Plc getPlcSource() {

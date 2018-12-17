@@ -71,7 +71,6 @@ public class PlcThread implements Runnable, ConnectionFailListener {
                 }
             }
             this.tags.add(tag);
-
         }
     }
 
