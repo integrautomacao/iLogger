@@ -22,8 +22,8 @@ public abstract class ServiceBase<T, ID extends Serializable, R extends JpaRepos
         return entity;
     }
 
-    public void deletePermanent(T id) {
-        repository.delete(id);
+    public void deletePermanent(ID id) {
+        repository.deleteById(id);
     }
 
     public List<T> getAll() {
@@ -37,6 +37,7 @@ public abstract class ServiceBase<T, ID extends Serializable, R extends JpaRepos
     public Optional<T> update(ID id, T entity) {
         return Optional.empty();
     }
+
 
     public boolean hasData() {
         return repository.count() > 0;

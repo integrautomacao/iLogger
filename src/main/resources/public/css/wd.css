@@ -33,6 +33,11 @@ body {font-family: "Roboto", sans-serif}
     height: 600px;
     padding: 10px;
 }
+
+.divOverflow{
+    height: 182px;
+    overflow-y: scroll;
+}
  
 .texto_rodape{
     color:azure;
@@ -61,6 +66,28 @@ body {font-family: "Roboto", sans-serif}
   .button2:hover {
       
     box-shadow: 0 0px 16px 0 rgba(0,0,0,0.75);
+  }
+
+  tr, th, td {
+      padding: 14px;
+  }
+
+  .tdTag{
+      padding: 0px;
+      margin-left: 7px;
+      margin-right: 7px;
+  }
+
+  .errorRow{
+      background-color: red;
+      color: white;
+      text-align: center;
+  }
+  .okRow{
+      background-color: rgb(2, 219, 2);
+      color: black;
+      text-align: center;
+
   }
         
 

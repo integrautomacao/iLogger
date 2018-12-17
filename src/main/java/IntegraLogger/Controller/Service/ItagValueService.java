@@ -2,6 +2,7 @@ package IntegraLogger.Controller.Service;
 
 import IntegraLogger.Application.Listeners.TagPersist;
 import IntegraLogger.Controller.Repository.ItagValueRepository;
+import IntegraLogger.DTO.TagValueDTO;
 import IntegraLogger.Model.Tag.ItagDescription;
 import IntegraLogger.Model.Tag.ItagValue;
 import etherip.Tag;
@@ -9,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -65,6 +67,7 @@ public class ItagValueService extends ServiceBase<ItagValue, Long, ItagValueRepo
         return value;
     }
 
+    @Transactional
     public void checkAndSave(ItagValue value) {
         if (!value.equals(null)) {
             String key = value.getName() + value.getPlcSource().getId();
@@ -76,28 +79,28 @@ public class ItagValueService extends ServiceBase<ItagValue, Long, ItagValueRepo
                             itagValue.setLastUpdate(value.getLastUpdate());
                             valuesToSave.get(key).setLastUpdate(itagValue.getLastUpdate());
                             repository.setTimeUpdate(value.getLastUpdate(), itagValue.getId());
-                            logger.info("Time Update -> '" + value.getName() + "' value: "+ value.getValueBool());
+                            logger.info("Time Update -> '" + value.getName() + "' value: " + value.getValueBool());
                         } else {
                             valuesToSave.put(key, value);
                             repository.save(value);
-                            logger.info("Persist -> '" + value.getName() + "' value: "+ value.getValueBool());
+                            logger.info("Persist -> '" + value.getName() + "' value: " + value.getValueBool());
                         }
                         break;
                     case "REAL":
                         //TODO implement especified rules to REAL and STRUCT strategy
                         valuesToSave.put(key, value);
                         repository.save(value);
-                        logger.info("Persist -> '" + value.getName() + "' value: "+ value.getValueFloat());
+                        logger.info("Persist -> '" + value.getName() + "' value: " + value.getValueFloat());
                         break;
                     case "STRUCT":
                         valuesToSave.put(key, value);
                         repository.save(value);
-                        logger.info("Persist -> '" + value.getName() + "' value: "+ value.getValueString());
+                        logger.info("Persist -> '" + value.getName() + "' value: " + value.getValueString());
                         break;
                     default:
                         valuesToSave.put(key, value);
                         repository.save(value);
-                        logger.info("Persist -> '" + value.getName() + "' value: "+ value.getValueInt());
+                        logger.info("Persist -> '" + value.getName() + "' value: " + value.getValueInt());
                         break;
                 }
             } else {
@@ -128,7 +131,6 @@ public class ItagValueService extends ServiceBase<ItagValue, Long, ItagValueRepo
                         valuesToMail.put(key, value);
                         return false;
                     }
-
                 }
             } else {
                 return false;
@@ -139,5 +141,29 @@ public class ItagValueService extends ServiceBase<ItagValue, Long, ItagValueRepo
 
     }
 
+    @Transactional
+    public Set<TagValueDTO> getActiveTags() {
+        Set<TagValueDTO> valueDTOS = new HashSet<>();
 
+        for (Map.Entry<String, ItagValue> itagValue : valuesToSave.entrySet()) {
+            TagValueDTO value = new TagValueDTO(itagValue.getValue().getName(), itagValue.getValue().getType());
+//            value.setPlc(itagValue.getValue().getPlcSource().getDescription());
+            switch (value.getType()) {
+                case "BOOL":
+                    value.setValue(itagValue.getValue().getValueBool().toString());
+                    break;
+                case "REAL":
+                    value.setValue(itagValue.getValue().getValueFloat().toString());
+                    break;
+                case "STRUCT":
+                    value.setValue(itagValue.getValue().getValueString());
+                    break;
+                default:
+                    value.setValue(itagValue.getValue().getValueInt().toString());
+                    break;
+            }
+            valueDTOS.add(value);
+        }
+        return valueDTOS;
+    }
 }

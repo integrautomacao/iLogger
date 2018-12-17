@@ -22,32 +22,33 @@
     <body>
         <div class="div_2">
             <h2>O Servidor Ilogger está em execução!</h2>
-            <button class="button button2" onclick="teste()">Atualizar</button>
+            <button class="button button2" onclick="getActivePlc()">Atualizar</button>
 
-            <table id="table">
+            <table id="tablePlc">
                 <tr>
                     <th>Controlador</th>
                     <th>Descrição</th>
-                </tr>
-                <tr>
-                    <td>Alfreds Futterkiste</td>
-                    <td>Maria Anders</td>
+                    <th>Status</th>
                 </tr>
             </table>
+
+            <h3>Tags monitorados</h3>
+            <button class="button button2" onclick="getActiveTags()">Atualizar</button>
+            <div class="divOverflow">
+                <table id="tableTag">
+                    <th>tag</th>
+                    <th>tag</th>
+                </table>
+            </div>
         </div>
-
-
         <footer class="rodape">
             <div class="texto_rodape">
                 <p>Copyright© 2018 Integra Software Automation </p>
                 <p>Todos os direitos reservados.</p>
             </div>
         </footer>
-
 </div>
 </div>
-
-
 </body>
 
 </html>
