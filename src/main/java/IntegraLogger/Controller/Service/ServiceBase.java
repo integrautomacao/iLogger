@@ -18,8 +18,7 @@ public abstract class ServiceBase<T, ID extends Serializable, R extends JpaRepos
     }
 
     public T save(T entity) {
-        repository.save(entity);
-        return entity;
+        return repository.save(entity);
     }
 
     public void deletePermanent(ID id) {
@@ -33,11 +32,6 @@ public abstract class ServiceBase<T, ID extends Serializable, R extends JpaRepos
     public T getById(ID id) {
         return repository.getOne(id);
     }
-
-    public Optional<T> update(ID id, T entity) {
-        return Optional.empty();
-    }
-
 
     public boolean hasData() {
         return repository.count() > 0;

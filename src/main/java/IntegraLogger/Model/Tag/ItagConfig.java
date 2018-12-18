@@ -1,12 +1,14 @@
 package IntegraLogger.Model.Tag;
 
 import IntegraLogger.Application.Listeners.ListenersIndex;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import etherip.TagListener;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity(name = "ItagConfig")
 @Table(name = "ItagConfig")
 public class ItagConfig {
@@ -18,6 +20,7 @@ public class ItagConfig {
     private String name;
 
     @OneToOne
+    @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
     private ItagDescription description;
 
     @Column(name = "timeUpdate")

@@ -2,12 +2,13 @@ package IntegraLogger.Model.Plc;
 
 
 import IntegraLogger.Model.Tag.ItagConfig;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity(name = "Plc")
 @Table(name = "Plc")
 public class Plc {

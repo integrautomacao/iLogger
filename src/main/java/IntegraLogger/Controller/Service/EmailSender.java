@@ -1,5 +1,6 @@
 package IntegraLogger.Controller.Service;
 
+import IntegraLogger.Application.AppValues;
 import IntegraLogger.Model.Tag.ItagValue;
 import freemarker.template.TemplateException;
 import org.apache.commons.mail.EmailException;
@@ -56,19 +57,23 @@ public class EmailSender implements Runnable {
 
     private void send() {
         try {
+            String mailTo = AppValues.getProperty("mailTo");
+            String[] mailToArray = mailTo.split(",");
 
-            this.email.setHostName("mail.integrautomacao.com.br");
-            this.email.setFrom("engenharia@integra.com"); // remetente
-            this.email.setAuthentication("engenharia@integrautomacao.com.br", "_Engenharia1");
-            this.email.setSmtpPort(587);
-            this.email.addTo("wdouglascosta@outlook.com");
-//            this.email.addTo("rafael@integrautomacao.com.br");
+
+            this.email.setHostName(AppValues.getProperty("hostname"));
+            this.email.setFrom(AppValues.getProperty("from")); // remetente
+            this.email.setAuthentication(AppValues.getProperty("user"), "pass");
+            this.email.setSmtpPort(Integer.parseInt(AppValues.getProperty("port")));
+
+            this.email.addTo(mailToArray);
+//  this.email.addTo("rafael@integrautomacao.com.br");
 //            this.email.addTo("joldmar@integrautomacao.com.br");
             this.email.setSubject("Alarme de teste");
             this.email.setHtmlMsg(message);
             this.email.setCharset("UTF-8");
             email.send();
-            logger.info("email enviado para: (adicionar lista de emails) - evento: '" + value.getName() + "' valor= " + value.getValueBool().booleanValue());
+            logger.info("email enviado para: "+mailToArray+" - evento: '" + value.getName() + "' valor= " + value.getValueBool().booleanValue());
         } catch (
                 EmailException e) {
             System.out.println("Could not send email");

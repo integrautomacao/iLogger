@@ -13,59 +13,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-//@Configuration
-//@EnableTransactionManagement
-//@EnableJpaRepositories(basePackages = "IntegraLogger.*")
-//public class DbConfiguration {
-//
-//    @Bean
-//    public DataSource dataSource() {
-//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//        dataSource.setDriverClassName(AppValues.getProperty("dataSource.className"));
-//        dataSource.setUrl(AppValues.getProperty("dataSource.url"));
-//        dataSource.setUsername(AppValues.getProperty("dataSource.user"));
-//        dataSource.setPassword(AppValues.getProperty("dataSource.password"));
-//        return dataSource;
-//    }
-//
-//    @Bean
-//    public EntityManagerFactory entityManagerFactory() {
-//
-//        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-//        vendorAdapter.setGenerateDdl(true);
-//        vendorAdapter.setShowSql(false);
-//        vendorAdapter.setDatabasePlatform(AppValues.getProperty("hibernate.dialect"));
-//        LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
-//        factory.setJpaVendorAdapter(vendorAdapter);
-//        factory.setJpaProperties(getHibernateProperties());
-//        factory.setPackagesToScan("IntegraLogger");
-//        factory.setDataSource(dataSource());
-//        factory.afterPropertiesSet();
-//        return factory.getObject();
-//    }
-//
-//
-//    @Bean
-//    public JpaTransactionManager transactionManager() {
-//        JpaTransactionManager txManager = new JpaTransactionManager();
-//        txManager.setDataSource(dataSource());
-//        txManager.setEntityManagerFactory(entityManagerFactory());
-//        return txManager;
-//    }
-//
-//    Properties getHibernateProperties() {
-//        Properties properties = new Properties();
-//        properties.setProperty("hibernate.ddl-auto", "update");
-//        properties.setProperty("hibernate.dialect", AppValues.getProperty("hibernate.dialect"));
-//
-//        properties.setProperty("hibernate.show_sql", "true");
-//
-//        return properties;
-//    }
-//}
+
 
 @Configuration
-//@EnableTransactionManagement
 public class DbConfiguration {
 
     @Bean
@@ -97,7 +47,7 @@ public class DbConfiguration {
         Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
         properties.setProperty("hibernate.dialect",  AppValues.getProperty("hibernate.dialect"));
-        properties.setProperty("hibernate.show_sql", "false");
+        properties.setProperty("hibernate.show_sql", "true");
         return properties;
     }
 }

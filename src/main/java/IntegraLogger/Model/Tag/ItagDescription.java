@@ -1,7 +1,12 @@
 package IntegraLogger.Model.Tag;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity(name = "ItagDescription")
 @Table(name = "ItagDescription")
 public class ItagDescription {
