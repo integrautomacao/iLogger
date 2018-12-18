@@ -47,7 +47,7 @@ public class DbConfiguration {
         Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
         properties.setProperty("hibernate.dialect",  AppValues.getProperty("hibernate.dialect"));
-        properties.setProperty("hibernate.show_sql", "true");
+        properties.setProperty("hibernate.show_sql", "false");
         return properties;
     }
 }

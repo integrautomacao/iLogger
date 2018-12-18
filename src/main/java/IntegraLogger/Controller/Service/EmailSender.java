@@ -63,21 +63,28 @@ public class EmailSender implements Runnable {
 
             this.email.setHostName(AppValues.getProperty("hostname"));
             this.email.setFrom(AppValues.getProperty("from")); // remetente
-            this.email.setAuthentication(AppValues.getProperty("user"), "pass");
+            this.email.setAuthentication(AppValues.getProperty("user"), AppValues.getProperty("pass"));
             this.email.setSmtpPort(Integer.parseInt(AppValues.getProperty("port")));
-            this.email.setSSLCheckServerIdentity(Boolean.valueOf(AppValues.getProperty("ssl")));
             this.email.addTo(mailToArray);
 
-            this.email.setSubject("Alarme de teste");
+            this.email.setSubject(AppValues.getProperty("subject"));
             this.email.setHtmlMsg(message);
             this.email.setCharset("UTF-8");
+
+            logger.info("email enviado para: " + emailsTo(mailToArray) + " - evento: '" + value.getName() + "' valor= " + value.getValueBool().booleanValue());
             email.send();
-            logger.info("email enviado para: "+mailToArray+" - evento: '" + value.getName() + "' valor= " + value.getValueBool().booleanValue());
-        } catch (
-                EmailException e) {
+        } catch (EmailException e) {
             System.out.println("Could not send email");
             e.printStackTrace();
         }
+    }
+
+    private String emailsTo(String[] emails) {
+        String toReturn = "dest ";
+        for (String email : emails) {
+            toReturn = toReturn + "\n" +" -> " + email ;
+        }
+        return toReturn;
     }
 
     @Override
