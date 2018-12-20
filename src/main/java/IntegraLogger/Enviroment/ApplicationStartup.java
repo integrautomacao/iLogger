@@ -52,53 +52,50 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
 
         if (!plcService.hasData()) {
             Plc plc = new Plc();
-            Plc plc2 = new Plc();
-            plc.setIp("192.168.0.101");
-            plc2.setIp("192.168.0.100");
+            plc.setIp("10.195.27.204");
+//            plc.setIp("192.168.0.101");
             plc.setSlot(0);
-            plc2.setSlot(0);
-            plc.setDescription("PLC_Teste01");
-            plc2.setDescription("PLC_Segundo");
-            ItagDescription description1 = new ItagDescription("Tag Booleano de mudança rápida");
-            ItagDescription description2 = new ItagDescription("PLC 2 - Alarme de Teste");
-            ItagDescription description3 = new ItagDescription("Palavra lida");
-            ItagDescription description4 = new ItagDescription("Valor acumulado de tempo");
-            ItagDescription description5 = new ItagDescription("valor inteiro eu acho");
-            ItagDescription description6 = new ItagDescription("Contador em segundos");
-            ItagDescription description7 = new ItagDescription("PLC 2 - Variável real aleatória");
-            ItagDescription description8 = new ItagDescription("Alarme de Teste de hora em hora, ficará ativo por 5 min");
-//            itagDescService.save(description1);
-//            itagDescService.save(description2);
-//            itagDescService.save(description3);
-//            itagDescService.save(description4);
-//            itagDescService.save(description5);
-//            itagDescService.save(description6);
-//            itagDescService.save(description7);
-//            itagDescService.save(description8);
-            ItagConfig itagConfig1 = new ItagConfig("Bool1", description1, 1);
-            ItagConfig itagConfig2 = new ItagConfig("digitalSim", description2, 1);
-            ItagConfig itagConfig3 = new ItagConfig("wstring", description3, 1);
-            ItagConfig itagConfig4 = new ItagConfig("timmer1.ACC", description4, 5);
-            ItagConfig itagConfig5 = new ItagConfig("wdouglas", description5, 2);
-            ItagConfig itagConfig6 = new ItagConfig("xSecCounter", description6, 2);
-            ItagConfig itagConfig7 = new ItagConfig("anlg3", description7, 5);
-            ItagConfig itagConfig8 = new ItagConfig("AlarmeDeHora", description8, 1);
+            plc.setDescription("CLP_ADM");
+            ItagDescription description1 = new ItagDescription("BICA 1 DO CARREGAMENTO FOI ABERTA SEM NENHUM TICKET DE CARREGAMENTO ATIVO");
+            ItagDescription description2 = new ItagDescription("BICA 2 DO CARREGAMENTO FOI ABERTA SEM NENHUM TICKET DE CARREGAMENTO ATIVO");
+            ItagDescription description3 = new ItagDescription("BICA 3 DO CARREGAMENTO FOI ABERTA SEM NENHUM TICKET DE CARREGAMENTO ATIVO");
+            ItagDescription description4 = new ItagDescription("BICA 4 DO CARREGAMENTO FOI ABERTA SEM NENHUM TICKET DE CARREGAMENTO ATIVO");
+            ItagDescription description5 = new ItagDescription("CANCELA DE ENTRADA DO CARREGAMENTO FOI ABERTA SEM NENHUM TICKET DE CARREGAMENTO ATIVO");
+            ItagDescription description6 = new ItagDescription("CANCELA DE SAÍDA DO CARREGAMENTO FOI ABERTA SEM NENHUM TICKET DE CARREGAMENTO ATIVO");
+            ItagDescription description7 = new ItagDescription("A FUNÇÃO ACERTO DE CARGA NO SISTEMA FOI HABILITADA");
+            ItagDescription description8 = new ItagDescription("CARREGAMENTO FINALIZADO PELO SISTEMA DO CARREGAMENTO");
+
+            ItagConfig itagConfig1 = new ItagConfig("BICA1_ABERTA_MANUAL", description1, 1);
+            ItagConfig itagConfig2 = new ItagConfig("BICA2_ABERTA_MANUAL", description2, 1);
+            ItagConfig itagConfig3 = new ItagConfig("BICA3_ABERTA_MANUAL", description3, 1);
+            ItagConfig itagConfig4 = new ItagConfig("BICA4_ABERTA_MANUAL", description4, 1);
+            ItagConfig itagConfig5 = new ItagConfig("CA01_ABERTA_MANUAL", description5, 1);
+            ItagConfig itagConfig6 = new ItagConfig("CA02_ABERTA_MANUAL", description6, 1);
+            ItagConfig itagConfig7 = new ItagConfig("ACERTO_CARGA", description7, 1);
+            ItagConfig itagConfig8 = new ItagConfig("CARREGAMENTO_REPROVADO", description8, 1);
             itagConfig1.setListener(ListenersIndex.PERSIST);
+            itagConfig1.setListener(ListenersIndex.EMAIL);
             itagConfig2.setListener(ListenersIndex.PERSIST);
+            itagConfig2.setListener(ListenersIndex.EMAIL);
             itagConfig3.setListener(ListenersIndex.PERSIST);
+            itagConfig3.setListener(ListenersIndex.EMAIL);
             itagConfig4.setListener(ListenersIndex.PERSIST);
+            itagConfig4.setListener(ListenersIndex.EMAIL);
             itagConfig5.setListener(ListenersIndex.PERSIST);
+            itagConfig5.setListener(ListenersIndex.EMAIL);
             itagConfig6.setListener(ListenersIndex.PERSIST);
+            itagConfig6.setListener(ListenersIndex.EMAIL);
             itagConfig7.setListener(ListenersIndex.PERSIST);
+            itagConfig7.setListener(ListenersIndex.EMAIL);
             itagConfig8.setListener(ListenersIndex.PERSIST);
             itagConfig8.setListener(ListenersIndex.EMAIL);
             plc.getItagConfigs().add(itagConfig1);
-            plc2.getItagConfigs().add(itagConfig2);
+            plc.getItagConfigs().add(itagConfig2);
             plc.getItagConfigs().add(itagConfig3);
             plc.getItagConfigs().add(itagConfig4);
             plc.getItagConfigs().add(itagConfig5);
             plc.getItagConfigs().add(itagConfig6);
-            plc2.getItagConfigs().add(itagConfig7);
+            plc.getItagConfigs().add(itagConfig7);
             plc.getItagConfigs().add(itagConfig8);
 
             itagConfigService.save(itagConfig1);
@@ -111,26 +108,14 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
             itagConfigService.save(itagConfig8);
 
             plcService.save(plc);
-            plcService.save(plc2);
         }
 
         Plc plc = plcService.getAll().get(0);
         PlcThread plcThread = new PlcThread(plc);
-
         pool.addPlcThread(plcThread);
         System.out.println(plcThread);
         Thread thread = new Thread(plcThread, plc.getDescription());
         pool.addThread(thread);
         thread.start();
-
-        Plc plc2 = plcService.getAll().get(1);
-        PlcThread plcThread2 = new PlcThread(plc2);
-        pool.addPlcThread(plcThread2);
-        System.out.println(plcThread2);
-        Thread thread2 = new Thread(plcThread2, plc2.getDescription());
-        pool.addThread(thread2);
-        thread2.start();
-
-
     }
 }
