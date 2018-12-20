@@ -63,8 +63,8 @@ public class EmailSender implements Runnable {
 
             this.email.setHostName(AppValues.getProperty("hostname"));
             this.email.setFrom(AppValues.getProperty("from")); // remetente
-//            this.email.setAuthentication(AppValues.getProperty("user"), AppValues.getProperty("pass"));
-//            this.email.setSmtpPort(Integer.parseInt(AppValues.getProperty("port")));
+            this.email.setAuthentication(AppValues.getProperty("user"), AppValues.getProperty("pass"));
+            this.email.setSmtpPort(Integer.parseInt(AppValues.getProperty("port")));
             this.email.addTo(mailToArray);
 
             this.email.setSubject(AppValues.getProperty("subject"));

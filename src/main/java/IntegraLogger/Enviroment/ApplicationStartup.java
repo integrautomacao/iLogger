@@ -4,6 +4,7 @@ import IntegraLogger.Application.Listeners.ListenersIndex;
 import IntegraLogger.Application.PlcThread;
 import IntegraLogger.Application.ThreadPool;
 import IntegraLogger.Controller.Service.*;
+import IntegraLogger.Model.Misc.EventLog;
 import IntegraLogger.Model.Plc.Plc;
 import IntegraLogger.Model.Tag.ItagConfig;
 import IntegraLogger.Model.Tag.ItagDescription;
@@ -29,12 +30,12 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
     private ItagConfigService itagConfigService;
 
     @Autowired
-    private ItagDescService itagDescService;
-
+    private EventLogService eventLogService;
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
         //just prepare the enviroment for develop running
         startupEnviroment();
+        eventLogService.logRegister("Sistema iLogger foi iniciado!", "App Startup");
     }
 
     private void startupEnviroment() {
@@ -52,8 +53,8 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
 
         if (!plcService.hasData()) {
             Plc plc = new Plc();
-            plc.setIp("10.195.27.204");
-//            plc.setIp("192.168.0.101");
+//            plc.setIp("10.195.27.204");
+            plc.setIp("192.168.0.101");
             plc.setSlot(0);
             plc.setDescription("CLP_ADM");
             ItagDescription description1 = new ItagDescription("BICA 1 DO CARREGAMENTO FOI ABERTA SEM NENHUM TICKET DE CARREGAMENTO");
