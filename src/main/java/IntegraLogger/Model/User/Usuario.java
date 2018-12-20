@@ -1,10 +1,6 @@
 package IntegraLogger.Model.User;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import javax.persistence.*;
-@Getter @Setter
 @Entity(name = "Usuario")
 @Table(name = "Usuario")
 public class Usuario {

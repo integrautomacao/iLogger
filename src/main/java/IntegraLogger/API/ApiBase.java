@@ -1,9 +1,7 @@
 package IntegraLogger.API;
 
-import IntegraLogger.Controller.Service.ServiceBase;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.Serializable;
 import java.util.List;

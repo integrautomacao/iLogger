@@ -2,21 +2,12 @@ package IntegraLogger.Application.Listeners;
 
 import IntegraLogger.Controller.Service.BeanUtil;
 import IntegraLogger.Controller.Service.EmailSender;
-import IntegraLogger.Controller.Service.FreemakerUtils;
 import IntegraLogger.Controller.Service.ItagValueService;
 import IntegraLogger.Model.Tag.ItagValue;
 import etherip.Tag;
 import etherip.TagListener;
-import freemarker.template.TemplateException;
-import org.apache.commons.mail.EmailException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Map;
 
 //@Component
 public class TagEmail implements TagListener {
