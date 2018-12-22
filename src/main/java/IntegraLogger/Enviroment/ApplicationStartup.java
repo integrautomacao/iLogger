@@ -61,11 +61,14 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
             ItagDescription description2 = new ItagDescription("BICA 2 DO CARREGAMENTO FOI ABERTA SEM NENHUM TICKET DE CARREGAMENTO");
             ItagDescription description3 = new ItagDescription("BICA 3 DO CARREGAMENTO FOI ABERTA SEM NENHUM TICKET DE CARREGAMENTO");
             ItagDescription description4 = new ItagDescription("BICA 4 DO CARREGAMENTO FOI ABERTA SEM NENHUM TICKET DE CARREGAMENTO");
-            ItagDescription description5 = new ItagDescription("CANCELA DE ENTRADA DO CARREGAMENTO FOI ABERTA SEM NENHUM TICKET DE CARREGAMENTO");
-            ItagDescription description6 = new ItagDescription("CANCELA DE SAÍDA DO CARREGAMENTO FOI ABERTA SEM NENHUM TICKET DE CARREGAMENTO");
+            ItagDescription description5 = new ItagDescription("CANCELA DE ENTRADA DO CARREGAMENTO FOI MOVIMENTADA SEM NENHUM TICKET DE CARREGAMENTO");
+            ItagDescription description6 = new ItagDescription("CANCELA DE SAÍDA DO CARREGAMENTO FOI MOVIMENTADA SEM NENHUM TICKET DE CARREGAMENTO");
             ItagDescription description7 = new ItagDescription("A FUNÇÃO ACERTO DE CARGA NO SISTEMA FOI HABILITADA");
             ItagDescription description8 = new ItagDescription("CARREGAMENTO FINALIZADO PELO SISTEMA DO CARREGAMENTO");
             ItagDescription description9 = new ItagDescription("DETECTADO MOVIMENTAÇÃO DE PESO NA BALANÇA SEM TICKET DE CARREGAMENTO");
+            ItagDescription description10 = new ItagDescription("QUANTIDADE DE CAMINHÕES CARREGADOS DIA");
+            ItagDescription description11 = new ItagDescription("QUANTIDADE DE CAMINHÕES (TICKETS) CANCELADOS DIA");
+            ItagDescription description12 = new ItagDescription("TRIGGER PARA DISPARO DE RELATORIO");
 
             ItagConfig itagConfig1 = new ItagConfig("BICA1_ABERTA_MANUAL", description1, 1);
             ItagConfig itagConfig2 = new ItagConfig("BICA2_ABERTA_MANUAL", description2, 1);
@@ -76,6 +79,9 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
             ItagConfig itagConfig7 = new ItagConfig("ACERTO_CARGA", description7, 1);
             ItagConfig itagConfig8 = new ItagConfig("CARREGAMENTO_REPROVADO", description8, 1);
             ItagConfig itagConfig9 = new ItagConfig("PESO_BALANCA_SEM_TICKET", description9, 1);
+            ItagConfig itagConfig10 = new ItagConfig("CTU_CAMINHOES_CARREGADOS.ACC", description10, 5);
+            ItagConfig itagConfig11 = new ItagConfig("CTU_CAMINHOES_CARREGADOS_C.ACC", description11, 5);
+            ItagConfig itagConfig12 = new ItagConfig("TRIGGER_RELATORIO_DIARIO", description12, 1);
             itagConfig1.setListener(ListenersIndex.PERSIST);
             itagConfig1.setListener(ListenersIndex.EMAIL);
             itagConfig2.setListener(ListenersIndex.PERSIST);
@@ -94,6 +100,9 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
             itagConfig8.setListener(ListenersIndex.EMAIL);
             itagConfig9.setListener(ListenersIndex.PERSIST);
             itagConfig9.setListener(ListenersIndex.EMAIL);
+            itagConfig10.setListener(ListenersIndex.PERSIST);
+            itagConfig11.setListener(ListenersIndex.PERSIST);
+            itagConfig12.setListener(ListenersIndex.TRIGGER);
             plc.getItagConfigs().add(itagConfig1);
             plc.getItagConfigs().add(itagConfig2);
             plc.getItagConfigs().add(itagConfig3);
@@ -103,6 +112,9 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
             plc.getItagConfigs().add(itagConfig7);
             plc.getItagConfigs().add(itagConfig8);
             plc.getItagConfigs().add(itagConfig9);
+            plc.getItagConfigs().add(itagConfig10);
+            plc.getItagConfigs().add(itagConfig11);
+            plc.getItagConfigs().add(itagConfig12);
 
             itagConfigService.save(itagConfig1);
             itagConfigService.save(itagConfig2);
@@ -113,6 +125,9 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
             itagConfigService.save(itagConfig7);
             itagConfigService.save(itagConfig8);
             itagConfigService.save(itagConfig9);
+            itagConfigService.save(itagConfig10);
+            itagConfigService.save(itagConfig11);
+            itagConfigService.save(itagConfig12);
 
             plcService.save(plc);
         }

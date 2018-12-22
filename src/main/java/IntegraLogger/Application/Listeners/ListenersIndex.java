@@ -1,5 +1,5 @@
 package IntegraLogger.Application.Listeners;
 
 public enum ListenersIndex {
-    LOGGER, EMAIL, PERSIST
+    LOGGER, EMAIL, PERSIST, TRIGGER
 }

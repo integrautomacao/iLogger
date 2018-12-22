@@ -23,11 +23,11 @@ public class ItagValueService extends ServiceBase<ItagValue, Long, ItagValueRepo
 
     private PlcService plcService = BeanUtil.getBean(PlcService.class);
     private Map<String, ItagValue> valuesToSave = new HashMap<>(configService.countInt());
-    private Map<String, ItagValue> valuesToMail = new HashMap<>(configService.countInt());
+    private Map<String, ItagValue> valuesBoolean = new HashMap<>(configService.countInt());
 
-    private SimpleDateFormat hourFormat = new SimpleDateFormat("yyyy-MM-dd");
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-    private SimpleDateFormat lastUpdate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
+    private SimpleDateFormat dateHourFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static final Logger logger = LoggerFactory.getLogger(ItagValueService.class);
 
     @Autowired
@@ -111,24 +111,24 @@ public class ItagValueService extends ServiceBase<ItagValue, Long, ItagValueRepo
     }
 
     //por enquanto, só envia emails com tags booleanas
-    public boolean checkValuesForEmail(ItagValue value) {
+    public boolean checkBooleanValue(ItagValue value) {
         if (!value.equals(null)) {
             if (value.getType().equals("BOOL")) {
                 String key = value.getName() + value.getPlcSource().getId();
-                if (valuesToMail.containsKey(key)) {
-                    ItagValue itagValue = valuesToMail.get(key);
+                if (valuesBoolean.containsKey(key)) {
+                    ItagValue itagValue = valuesBoolean.get(key);
                     if (!value.getValueBool() == itagValue.getValueBool()) {
-                        valuesToMail.put(key, value);
+                        valuesBoolean.put(key, value);
                         return true;
                     } else {
                         return false;
                     }
                 } else {
                     if (value.getValueBool()) {
-                        valuesToMail.put(key, value);
+                        valuesBoolean.put(key, value);
                         return true;
                     } else {
-                        valuesToMail.put(key, value);
+                        valuesBoolean.put(key, value);
                         return false;
                     }
                 }
@@ -138,8 +138,9 @@ public class ItagValueService extends ServiceBase<ItagValue, Long, ItagValueRepo
         } else {
             return false;
         }
-
     }
+
+
 
     @Transactional
     public Set<TagValueDTO> getActiveTags() {
@@ -165,5 +166,13 @@ public class ItagValueService extends ServiceBase<ItagValue, Long, ItagValueRepo
             valueDTOS.add(value);
         }
         return valueDTOS;
+    }
+
+    public List<ItagValue> getAllByDateAndType(Date date, String type) {
+        return repository.getAllByDateAndType(dateFormat.format(date), type);
+    }
+
+    public ItagValue getTopByLastUpdate(String name) {
+        return repository.getTopByName(name);
     }
 }

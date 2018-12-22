@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public interface ItagValueRepository extends JpaRepository<ItagValue, Long> {
@@ -16,4 +17,8 @@ public interface ItagValueRepository extends JpaRepository<ItagValue, Long> {
     @Modifying
     @Query("update ItagValue value set value.lastUpdate = ?1 where value.id = ?2")
     void setTimeUpdate(Date date,Long id);
+
+    List<ItagValue> getAllByDateAndType(String date, String type);
+
+    ItagValue getTopByName(String name);
 }

@@ -32,15 +32,13 @@ public class TagEmail implements TagListener {
             return;
         }
 
-        if (itagValueService.checkValuesForEmail(value)) {
+        if (itagValueService.checkBooleanValue(value)) {
             EmailSender emailSender = null;
 
             emailSender = new EmailSender(value);
 
             Thread thread = new Thread(emailSender, "EmailSender -> " + value.getName());
             thread.start();
-
-
         }
     }
 

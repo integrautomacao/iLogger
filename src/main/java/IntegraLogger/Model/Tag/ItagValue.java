@@ -1,6 +1,7 @@
 package IntegraLogger.Model.Tag;
 
 import IntegraLogger.Model.Plc.Plc;
+import org.apache.tomcat.util.descriptor.XmlIdentifiers;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -136,4 +137,23 @@ public class ItagValue {
         this.lastUpdate = lastUpdate;
     }
 
+    @Override
+    public String toString() {
+        String value = null;
+
+        if (this.valueBool != null) {
+            if (this.valueBool) {
+                value = "Condição ATIVA";
+            } else {
+                value = "Condição INATIVA";
+            }
+        } else if (this.valueFloat != null) {
+            value = this.valueFloat.toString();
+        } else if (this.valueInt != null) {
+            value = this.valueInt.toString();
+        } else if (this.valueString != null) {
+            value = this.valueString;
+        }
+        return this.date + " | " + this.hour + " | " + this.name + " | valor: " + value + " | última atualização: " + this.lastUpdate;
+    }
 }

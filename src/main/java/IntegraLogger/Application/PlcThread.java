@@ -1,9 +1,6 @@
 package IntegraLogger.Application;
 
-import IntegraLogger.Application.Listeners.ListenersIndex;
-import IntegraLogger.Application.Listeners.TagEmail;
-import IntegraLogger.Application.Listeners.TagLogger;
-import IntegraLogger.Application.Listeners.TagPersist;
+import IntegraLogger.Application.Listeners.*;
 import IntegraLogger.Enviroment.PlcConnection;
 import IntegraLogger.Model.Plc.Plc;
 import IntegraLogger.Model.Tag.ItagConfig;
@@ -24,6 +21,7 @@ public class PlcThread implements Runnable, ConnectionFailListener {
     private TagEmail tagEmail = new TagEmail();
     private TagPersist tagPersist = new TagPersist();
     private TagLogger tagLogger = new TagLogger();
+    private TagTriggerReport tagTriggerReport = new TagTriggerReport();
     private Plc plc;
     private List<Tag> tags = new ArrayList<>();
     private Scanner scanner;
@@ -68,6 +66,9 @@ public class PlcThread implements Runnable, ConnectionFailListener {
                 }
                 if (listenersIndex.equals(ListenersIndex.PERSIST)) {
                     tag.addListener(tagPersist);
+                }
+                if (listenersIndex.equals(ListenersIndex.TRIGGER)){
+                    tag.addListener(tagTriggerReport);
                 }
             }
             this.tags.add(tag);
