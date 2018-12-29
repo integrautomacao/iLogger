@@ -17,5 +17,12 @@ public class UserService extends ServiceBase<Usuario, Long, UserRepository> {
     }
 
 
-
+    public Usuario login(String user, String pass) {
+       Usuario usuario = repository.findByEmail(user);
+       if (usuario != null && usuario.getPassword().equals(pass)){
+           return usuario;
+       } else {
+           return null;
+       }
+    }
 }

@@ -3,7 +3,6 @@ package IntegraLogger.Controller.Service;
 import IntegraLogger.Application.DataTypes;
 import IntegraLogger.Model.Misc.IReport;
 import IntegraLogger.Model.Tag.ItagValue;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -23,7 +22,5 @@ public class ReportService {
         report.getFields().add(value1.toString());
         report.getFields().add(value2.toString());
         return report;
-
     }
-
 }
