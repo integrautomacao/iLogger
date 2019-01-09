@@ -1,6 +1,7 @@
 package IntegraLogger.API;
 
 import IntegraLogger.API.ApiExceptions.UserExceptions;
+import IntegraLogger.Application.AppConstants;
 import IntegraLogger.Controller.Service.UserService;
 import IntegraLogger.DTO.UsuarioDTO;
 import IntegraLogger.Model.User.Usuario;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = AppConstants.FRONT_URL)
 @RequestMapping("/user")
 public class UserApi implements ApiBase<Usuario, Long> {
 
