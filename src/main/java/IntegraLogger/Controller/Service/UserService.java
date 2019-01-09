@@ -16,6 +16,10 @@ public class UserService extends ServiceBase<Usuario, Long, UserRepository> {
         System.out.println("metodo");
     }
 
+    @Override
+    public Usuario getById(Long id) {
+        return repository.getById(id);
+    }
 
     public Usuario login(String user, String pass) {
        Usuario usuario = repository.findByEmail(user);

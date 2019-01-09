@@ -40,9 +40,11 @@ public class UserApi implements ApiBase<Usuario, Long> {
     }
 
     @Override
+    @CrossOrigin(origins = AppConstants.FRONT_URL)
     @GetMapping("/{id}")
     public Usuario getOne(@PathParam("id") Long id) {
-        return userService.getById(id);
+        Usuario usuario = userService.getById(id);
+        return usuario;
     }
 
     @Override
