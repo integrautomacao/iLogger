@@ -45,4 +45,6 @@ public class PlcApi implements ApiBase<Plc, Long> {
     public void delete(@PathVariable Long id) {
         plcService.deletePermanent(id);
     }
+
+
 }

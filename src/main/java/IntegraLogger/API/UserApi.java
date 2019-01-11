@@ -1,6 +1,5 @@
 package IntegraLogger.API;
 
-import IntegraLogger.API.ApiExceptions.UserExceptions;
 import IntegraLogger.Application.AppConstants;
 import IntegraLogger.Controller.Service.UserService;
 import IntegraLogger.DTO.UsuarioDTO;
@@ -16,6 +15,8 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = AppConstants.FRONT_URL)
+
+
 @RequestMapping("/user")
 public class UserApi implements ApiBase<Usuario, Long> {
 
@@ -23,9 +24,14 @@ public class UserApi implements ApiBase<Usuario, Long> {
     private UserService userService;
 
     @Override
-    @PostMapping
+    @PostMapping("/fat")
     public Usuario save(@RequestBody Usuario o) {
         return userService.save(o);
+    }
+
+    @PostMapping
+    public Usuario saveDTO(@RequestBody UsuarioDTO usuarioDTO){
+        return userService.saveDTO(usuarioDTO);
     }
 
     @Override
@@ -33,24 +39,36 @@ public class UserApi implements ApiBase<Usuario, Long> {
         return Optional.empty();
     }
 
+    @GetMapping("/fat")
     @Override
-    @GetMapping
     public List<Usuario> getAll() {
         return userService.getAll();
     }
 
+    @GetMapping
+    public List<UsuarioDTO> getAllUsersDTO() {
+        return userService.parseUsuarioDTO(userService.getAll());
+    }
+
     @Override
-    @CrossOrigin(origins = AppConstants.FRONT_URL)
-    @GetMapping("/{id}")
+    @GetMapping("/fat/{id}")
     public Usuario getOne(@PathParam("id") Long id) {
         Usuario usuario = userService.getById(id);
         return usuario;
     }
 
+    @GetMapping("/{id}")
+    public UsuarioDTO getOneDTO(@PathVariable("id") Long id) {
+        System.out.println(id);
+        return userService.parseUsuarioDTO(userService.getById(id));
+    }
+
     @Override
+    @DeleteMapping("/{id}")
     public void delete(@PathParam("id") Long id) {
         userService.deletePermanent(id);
     }
+
 
     @GetMapping("/login")
     public ResponseEntity<UsuarioDTO> login(@RequestHeader String user, @RequestHeader String pass) {
@@ -61,7 +79,7 @@ public class UserApi implements ApiBase<Usuario, Long> {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             UsuarioDTO dto = new UsuarioDTO(usuario.getId(), usuario.getName());
-            ResponseEntity<UsuarioDTO> usuarioResponseEntity = new ResponseEntity<>(dto,HttpStatus.OK);
+            ResponseEntity<UsuarioDTO> usuarioResponseEntity = new ResponseEntity<>(dto, HttpStatus.OK);
 
             return usuarioResponseEntity;
         }

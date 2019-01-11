@@ -23,4 +23,6 @@ public interface ApiBase<T, ID extends Serializable> {
     public void delete(@PathVariable ID id);
 
 
+
+
 }

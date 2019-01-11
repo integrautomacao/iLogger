@@ -1,8 +1,12 @@
 package IntegraLogger.Model.User;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+
 @Entity(name = "Usuario")
 @Table(name = "Usuario")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,7 +18,18 @@ public class Usuario {
     @Column(name = "password")
     private String password;
     @Column(name = "phoneNumber")
-    private String phoneNumber;
+    private Long phoneNumber;
+
+    @ManyToOne
+    private Sector sector;
+
+    public Sector getSector() {
+        return sector;
+    }
+
+    public void setSector(Sector sector) {
+        this.sector = sector;
+    }
 
     public String getName() {
         return name;
@@ -40,11 +55,11 @@ public class Usuario {
         this.password = password;
     }
 
-    public String getPhoneNumber() {
+    public Long getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    public void setPhoneNumber(Long phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

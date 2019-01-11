@@ -48,4 +48,5 @@ public class ItagApi implements ApiBase<ItagConfig, Long> {
     public void delete(@PathVariable Long id) {
         service.deletePermanent(id);
     }
+
 }

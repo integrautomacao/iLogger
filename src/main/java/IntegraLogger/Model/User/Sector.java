@@ -1,11 +1,14 @@
 package IntegraLogger.Model.User;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "Sector")
 @Table(name = "Sector")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Sector {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,10 +18,6 @@ public class Sector {
     private String name;
     @Column(name = "level")
     private int level;
-
-    @OneToMany
-    @Column(name = "Users")
-    private List<Usuario> users = new ArrayList<>();
 
     public String getName() {
         return name;
