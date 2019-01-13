@@ -15,8 +15,6 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = AppConstants.FRONT_URL)
-
-
 @RequestMapping("/user")
 public class UserApi implements ApiBase<Usuario, Long> {
 
@@ -30,8 +28,14 @@ public class UserApi implements ApiBase<Usuario, Long> {
     }
 
     @PostMapping
-    public Usuario saveDTO(@RequestBody UsuarioDTO usuarioDTO){
-        return userService.saveDTO(usuarioDTO);
+    public ResponseEntity<Usuario> saveDTO(@RequestBody UsuarioDTO usuarioDTO) {
+        Usuario usuario = userService.saveDTO(usuarioDTO);
+        if (usuario.getId() != null) {
+
+            return new ResponseEntity<>(usuario, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Override
@@ -59,7 +63,6 @@ public class UserApi implements ApiBase<Usuario, Long> {
 
     @GetMapping("/{id}")
     public UsuarioDTO getOneDTO(@PathVariable("id") Long id) {
-        System.out.println(id);
         return userService.parseUsuarioDTO(userService.getById(id));
     }
 
