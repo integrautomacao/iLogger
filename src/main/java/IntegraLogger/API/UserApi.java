@@ -66,6 +66,16 @@ public class UserApi implements ApiBase<Usuario, Long> {
         return userService.parseUsuarioDTO(userService.getById(id));
     }
 
+    @GetMapping("/reset")
+    public ResponseEntity<Boolean> resetPassword(@RequestHeader Long id) {
+        if (userService.resetPassword(id)) {
+            //send email
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @Override
     @DeleteMapping("/{id}")
     public void delete(@PathParam("id") Long id) {

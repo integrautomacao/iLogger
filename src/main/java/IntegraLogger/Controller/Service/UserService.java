@@ -5,10 +5,12 @@ import IntegraLogger.DTO.UsuarioDTO;
 import IntegraLogger.Model.User.Sector;
 import IntegraLogger.Model.User.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class UserService extends ServiceBase<Usuario, Long, UserRepository> {
@@ -98,7 +100,36 @@ public class UserService extends ServiceBase<Usuario, Long, UserRepository> {
     }
 
     private String generatePassword() {
-        return "123mudar";
+
+        String caracters = "qwertyuiopasdfghjklzxcvbnm7894561230";
+
+        Random random = new Random();
+
+        String keys = "";
+        int index;
+        for (int i = 0; i < 5; i++) {
+            index = random.nextInt(caracters.length());
+            keys += caracters.substring(index, index + 1);
+        }
+        return keys;
     }
 
+    public boolean resetPassword(Long id) {
+
+        try {
+
+            Usuario usuario = repository.getById(id);
+            usuario.setPassword(generatePassword());
+
+            if (save(usuario).getId() != null) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

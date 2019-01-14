@@ -196,14 +196,14 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
 
         List<Plc> plcs = plcService.getAll();
 
-        for (Plc plc : plcs){
-            PlcThread plcThread = new PlcThread(plc);
-            pool.addPlcThread(plcThread);
-            System.out.println(plcThread);
-            Thread thread = new Thread(plcThread, plc.getDescription());
-            pool.addThread(thread);
-            thread.start();
-        }
+//        for (Plc plc : plcs){
+//            PlcThread plcThread = new PlcThread(plc);
+//            pool.addPlcThread(plcThread);
+//            System.out.println(plcThread);
+//            Thread thread = new Thread(plcThread, plc.getDescription());
+//            pool.addThread(thread);
+//            thread.start();
+//        }
 
 
 
