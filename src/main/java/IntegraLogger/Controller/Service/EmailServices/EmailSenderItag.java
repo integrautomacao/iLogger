@@ -1,29 +1,37 @@
-package IntegraLogger.Controller.Service;
+package IntegraLogger.Controller.Service.EmailServices;
 
 import IntegraLogger.Application.AppValues;
+import IntegraLogger.Controller.Service.BeanUtil;
+import IntegraLogger.Controller.Service.EmailService;
+import IntegraLogger.Controller.Service.FreemakerUtils;
+import IntegraLogger.Controller.Service.ItagConfigService;
 import IntegraLogger.Model.Tag.ItagValue;
 import freemarker.template.TemplateException;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EmailSender implements Runnable {
+public class EmailSenderItag implements Runnable {
     private ItagConfigService configService = BeanUtil.getBean(ItagConfigService.class);
+
+
 
     HtmlEmail email = new HtmlEmail();
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd - HH:mm:ss");
     private ItagValue value;
     private String message = null;
-    private static final Logger logger = LoggerFactory.getLogger(EmailSender.class);
+    private static final Logger logger = LoggerFactory.getLogger(EmailSenderItag.class);
 
 
-    public EmailSender(ItagValue value) {
+    public EmailSenderItag(ItagValue value) {
         this.value = value;
     }
 
@@ -40,6 +48,7 @@ public class EmailSender implements Runnable {
         }
 
         map.put("desc", configService.getByName(value.getName()).getDescription().getValue());
+
         try {
             message = FreemakerUtils.parseTemplate(map, "email.ftl");
             System.out.println(email);
@@ -55,35 +64,17 @@ public class EmailSender implements Runnable {
         }
     }
 
-    private void send() {
-        try {
-            String mailTo = AppValues.getProperty("mailTo");
-            String[] mailToArray = mailTo.split(",");
-
-
-            this.email.setHostName(AppValues.getProperty("hostname"));
-            this.email.setFrom(AppValues.getProperty("from")); // remetente
-            this.email.setAuthentication(AppValues.getProperty("user"), AppValues.getProperty("pass"));
-            this.email.setSmtpPort(Integer.parseInt(AppValues.getProperty("port")));
-            this.email.addTo(mailToArray);
-
-            this.email.setSubject(AppValues.getProperty("subject"));
-            this.email.setHtmlMsg(message);
-            this.email.setCharset("UTF-8");
-
-
-            logger.info("email enviado para: " + emailsTo(mailToArray) + " - evento: '" + value.getName() + "' valor= " + value.getValueBool().booleanValue());
-            email.send();
-        } catch (EmailException e) {
-            System.out.println("Could not send email");
-            e.printStackTrace();
-        }
+    private void send() throws EmailException {
+        String[] mailToArray = EmailService.getInstance().getRecipientList();
+        HtmlEmail email = EmailService.getInstance().getHtmlEmail(this.message, mailToArray);
+        email.send();
+        logger.info("email enviado para: " + emailsTo(mailToArray) + " - evento: '" + value.getName() + "' valor= " + value.getValueBool().booleanValue());
     }
 
     private String emailsTo(String[] emails) {
         String toReturn = "dest ";
         for (String email : emails) {
-            toReturn = toReturn + "\n" +" -> " + email ;
+            toReturn = toReturn + "\n" + " -> " + email;
         }
         return toReturn;
     }
@@ -91,7 +82,12 @@ public class EmailSender implements Runnable {
     @Override
     public void run() {
         sendMail();
-        send();
+        try {
+            send();
+        } catch (EmailException e) {
+            System.out.println("Could not send email");
+            e.printStackTrace();
+        }
 //TODO create a usefull message to success sent email
 
     }

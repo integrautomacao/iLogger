@@ -1,6 +1,5 @@
 package IntegraLogger.API;
 
-import IntegraLogger.Application.Listeners.ListenersIndex;
 import IntegraLogger.Controller.Service.DirectTagService;
 import IntegraLogger.DTO.CIPDataDTO;
 import IntegraLogger.DTO.MultipleTagReadDTO;

@@ -1,11 +1,14 @@
 package IntegraLogger.API;
 
 import IntegraLogger.Application.AppConstants;
+import IntegraLogger.Controller.Service.EmailServices.EmailSenderItag;
+import IntegraLogger.Controller.Service.EmailServices.EmailSenderUser;
 import IntegraLogger.Controller.Service.UserService;
 import IntegraLogger.DTO.UsuarioDTO;
 import IntegraLogger.Model.User.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +34,9 @@ public class UserApi implements ApiBase<Usuario, Long> {
     public ResponseEntity<Usuario> saveDTO(@RequestBody UsuarioDTO usuarioDTO) {
         Usuario usuario = userService.saveDTO(usuarioDTO);
         if (usuario.getId() != null) {
-
+            EmailSenderUser emailSenderUser = new EmailSenderUser(usuario, true);
+            Thread thread = new Thread(emailSenderUser, "MailNewUser_" + usuario.getName());
+            thread.start();
             return new ResponseEntity<>(usuario, HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -66,13 +71,20 @@ public class UserApi implements ApiBase<Usuario, Long> {
         return userService.parseUsuarioDTO(userService.getById(id));
     }
 
-    @GetMapping("/reset")
-    public ResponseEntity<Boolean> resetPassword(@RequestHeader Long id) {
+    @GetMapping(value = "/reset", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Usuario> resetPassword(@RequestHeader Long id) {
+        Usuario usuario = userService.getById(id);
         if (userService.resetPassword(id)) {
             //send email
-            return new ResponseEntity<>(HttpStatus.OK);
+            EmailSenderUser emailSenderUser = new EmailSenderUser(usuario, false);
+            Thread thread = new Thread(emailSenderUser, "MailResetPass_" + usuario.getName());
+            thread.start();
+            ResponseEntity<Usuario> usuarioResponseEntity = new ResponseEntity<>(usuario, HttpStatus.OK);
+            return usuarioResponseEntity;
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            ResponseEntity<Usuario> usuarioResponseEntity = new ResponseEntity<>(usuario, HttpStatus.NOT_FOUND);
+            return usuarioResponseEntity;
+
         }
     }
 
@@ -86,13 +98,13 @@ public class UserApi implements ApiBase<Usuario, Long> {
     @GetMapping("/login")
     public ResponseEntity<UsuarioDTO> login(@RequestHeader String user, @RequestHeader String pass) {
 
-        Usuario usuario = userService.login(user, pass);
+        UsuarioDTO usuario = userService.login(user, pass);
 
         if (usuario == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
-            UsuarioDTO dto = new UsuarioDTO(usuario.getId(), usuario.getName());
-            ResponseEntity<UsuarioDTO> usuarioResponseEntity = new ResponseEntity<>(dto, HttpStatus.OK);
+//            UsuarioDTO dto = new UsuarioDTO(usuario.getId(), usuario.getName());
+            ResponseEntity<UsuarioDTO> usuarioResponseEntity = new ResponseEntity<>(usuario, HttpStatus.OK);
 
             return usuarioResponseEntity;
         }

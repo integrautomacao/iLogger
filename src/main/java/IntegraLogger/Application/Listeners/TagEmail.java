@@ -1,7 +1,7 @@
 package IntegraLogger.Application.Listeners;
 
 import IntegraLogger.Controller.Service.BeanUtil;
-import IntegraLogger.Controller.Service.EmailSender;
+import IntegraLogger.Controller.Service.EmailServices.EmailSenderItag;
 import IntegraLogger.Controller.Service.ItagValueService;
 import IntegraLogger.Model.Tag.ItagValue;
 import etherip.Tag;
@@ -33,11 +33,11 @@ public class TagEmail implements TagListener {
         }
 
         if (itagValueService.checkBooleanValue(value)) {
-            EmailSender emailSender = null;
+            EmailSenderItag emailSenderItag = null;
 
-            emailSender = new EmailSender(value);
+            emailSenderItag = new EmailSenderItag(value);
 
-            Thread thread = new Thread(emailSender, "EmailSender -> " + value.getName());
+            Thread thread = new Thread(emailSenderItag, "EmailSenderItag -> " + value.getName());
             thread.start();
         }
     }

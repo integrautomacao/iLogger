@@ -47,10 +47,10 @@ public class UserService extends ServiceBase<Usuario, Long, UserRepository> {
         return dto;
     }
 
-    public Usuario login(String user, String pass) {
+    public UsuarioDTO login(String user, String pass) {
         Usuario usuario = repository.findByEmail(user);
         if (usuario != null && usuario.getPassword().equals(pass)) {
-            return usuario;
+            return parseUsuarioDTO(usuario);
         } else {
             return null;
         }

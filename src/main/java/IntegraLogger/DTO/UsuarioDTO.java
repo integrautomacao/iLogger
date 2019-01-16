@@ -1,7 +1,5 @@
 package IntegraLogger.DTO;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @ResponseBody
