@@ -84,7 +84,6 @@ public class UserApi implements ApiBase<Usuario, Long> {
         } else {
             ResponseEntity<Usuario> usuarioResponseEntity = new ResponseEntity<>(usuario, HttpStatus.NOT_FOUND);
             return usuarioResponseEntity;
-
         }
     }
 
@@ -95,13 +94,13 @@ public class UserApi implements ApiBase<Usuario, Long> {
     }
 
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<UsuarioDTO> login(@RequestHeader String user, @RequestHeader String pass) {
 
         UsuarioDTO usuario = userService.login(user, pass);
 
         if (usuario == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new UsuarioDTO(), HttpStatus.UNAUTHORIZED);
         } else {
 //            UsuarioDTO dto = new UsuarioDTO(usuario.getId(), usuario.getName());
             ResponseEntity<UsuarioDTO> usuarioResponseEntity = new ResponseEntity<>(usuario, HttpStatus.OK);

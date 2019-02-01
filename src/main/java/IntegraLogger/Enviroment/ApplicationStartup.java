@@ -68,7 +68,7 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
             Usuario user = new Usuario();
             user.setName("William Douglas");
             user.setEmail("wdouglas@test.com");
-            user.setPassword("TeSt");
+            user.setPassword("1");
             user.setPhoneNumber(1234567890L);
 
             Usuario user1 = new Usuario();
