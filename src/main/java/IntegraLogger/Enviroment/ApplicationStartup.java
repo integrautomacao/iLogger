@@ -52,7 +52,7 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
 
         if (!plcService.hasData()) {
             Plc plc = new Plc();
-            plc.setIp("10.195.21.134");
+            plc.setIp("10.195.3.244");
 
             plc.setSlot(0);
 
@@ -66,10 +66,7 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
             ItagDescription description7 = new ItagDescription("A FUNÇÃO ACERTO DE CARGA NO SISTEMA FOI HABILITADA");
             ItagDescription description8 = new ItagDescription("CARREGAMENTO FINALIZADO PELO SISTEMA DO CARREGAMENTO");
             ItagDescription description9 = new ItagDescription("DETECTADO MOVIMENTAÇÃO DE PESO NA BALANÇA SEM TICKET DE CARREGAMENTO");
-            ItagDescription description10 = new ItagDescription("BICA 5 DO CARREGAMENTO FOI ABERTA SEM NENHUM TICKET DE CARREGAMENTO");
-            ItagDescription description11 = new ItagDescription("BICA 6 DO CARREGAMENTO FOI ABERTA SEM NENHUM TICKET DE CARREGAMENTO");
-            ItagDescription description12 = new ItagDescription("BICA 7 DO CARREGAMENTO FOI ABERTA SEM NENHUM TICKET DE CARREGAMENTO");
-            ItagDescription description13 = new ItagDescription("BICA 8 DO CARREGAMENTO FOI ABERTA SEM NENHUM TICKET DE CARREGAMENTO");
+
 
 
 
@@ -83,10 +80,7 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
             ItagConfig itagConfig7 = new ItagConfig("ACERTO_CARGA", description7, 1);
             ItagConfig itagConfig8 = new ItagConfig("CARREGAMENTO_REPROVADO", description8, 1);
             ItagConfig itagConfig9 = new ItagConfig("PESO_BALANCA_SEM_TICKET", description9, 1);
-            ItagConfig itagConfig10 = new ItagConfig("BICA5_ABERTA_MANUAL", description10, 1);
-            ItagConfig itagConfig11 = new ItagConfig("BICA6_ABERTA_MANUAL", description11, 1);
-            ItagConfig itagConfig12 = new ItagConfig("BICA7_ABERTA_MANUAL", description12, 1);
-            ItagConfig itagConfig13 = new ItagConfig("BICA8_ABERTA_MANUAL", description13, 1);
+
 
 
 
@@ -108,14 +102,7 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
             itagConfig8.setListener(ListenersIndex.EMAIL);
             itagConfig9.setListener(ListenersIndex.PERSIST);
             itagConfig9.setListener(ListenersIndex.EMAIL);
-            itagConfig10.setListener(ListenersIndex.PERSIST);
-            itagConfig10.setListener(ListenersIndex.EMAIL);
-            itagConfig11.setListener(ListenersIndex.PERSIST);
-            itagConfig11.setListener(ListenersIndex.EMAIL);
-            itagConfig12.setListener(ListenersIndex.PERSIST);
-            itagConfig12.setListener(ListenersIndex.EMAIL);
-            itagConfig13.setListener(ListenersIndex.PERSIST);
-            itagConfig13.setListener(ListenersIndex.EMAIL);
+
 
             plc.getItagConfigs().add(itagConfig1);
             plc.getItagConfigs().add(itagConfig2);
@@ -126,10 +113,7 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
             plc.getItagConfigs().add(itagConfig7);
             plc.getItagConfigs().add(itagConfig8);
             plc.getItagConfigs().add(itagConfig9);
-            plc.getItagConfigs().add(itagConfig10);
-            plc.getItagConfigs().add(itagConfig11);
-            plc.getItagConfigs().add(itagConfig12);
-            plc.getItagConfigs().add(itagConfig13);
+
 
 
             itagConfigService.save(itagConfig1);
@@ -141,10 +125,7 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
             itagConfigService.save(itagConfig7);
             itagConfigService.save(itagConfig8);
             itagConfigService.save(itagConfig9);
-            itagConfigService.save(itagConfig10);
-            itagConfigService.save(itagConfig11);
-            itagConfigService.save(itagConfig12);
-            itagConfigService.save(itagConfig13);
+
 
 
             plcService.save(plc);
