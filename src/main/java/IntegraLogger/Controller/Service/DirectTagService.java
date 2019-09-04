@@ -7,6 +7,8 @@ import etherip.EtherNetIP;
 import etherip.types.CIPData;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,7 +49,12 @@ public class DirectTagService {
                     }
                     break;
                 case "REAL":
-                    value.setValue(String.valueOf(data.getNumber(0).floatValue()));
+                    double d = data.getNumber(0).floatValue();
+                    BigDecimal bd = new BigDecimal(d).setScale(1, RoundingMode.UP);
+
+                    value.setValue(String.valueOf(bd));
+
+                    String.valueOf(data.getNumber(0).floatValue());
                     break;
                 default:
                     value.setValue(String.valueOf(data.getNumber(0).intValue()));

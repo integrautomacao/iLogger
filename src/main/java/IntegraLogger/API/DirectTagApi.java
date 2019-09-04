@@ -26,8 +26,8 @@ public class DirectTagApi {
             return null;
         }
     }
-
-    @GetMapping("/getValues")
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping("/getValues")
     public List<CIPDataDTO> getValuesFromArray(@RequestBody MultipleTagReadDTO data){
         return directTagService.getValuesFromArray(data);
     }
